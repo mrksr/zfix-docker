@@ -1,0 +1,25 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - namegen
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./src/frontend:/static
+    environment:
+      - VIRTUAL_HOST=flask.zfix.org,flask.mrksr.de
+
+  namegen:
+    image: mrksr/namegen
+    volumes:
+      - ./src/backend:/src
+      - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini
+
+networks:
+  web:
+    external:
+      name: nginx_default

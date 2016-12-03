@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- META -->
+    <title>Namificator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/kickstart.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="style.css" media="all" />
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/kickstart.js"></script>
+</head>
+<body>
+<div class="grid">
+    <div class="col_12" style="margin-top:100px;">
+        <hr />
+        <h1 class="center">Magic Name Buttons</h1>
+        <hr />
+        <div class="center"><input id="name" type="text" class="center" readonly="readonly" style="font-size: 5ex;" placeholder="Press a Button!"/></div>
+        <div style="margin-top:50px">
+            <div class="col_5 right"><button id="female" class="large"><i class="icon-heart"></i> Female</button></div>
+            <div class="col_2 center"><button id="myth" class="large"><i class="icon-key"></i> Myth</button></div>
+            <div class="col_5 left"><button id="male" class="large"><i class="icon-fire"></i> Male</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- Buttons -->
+<script type="text/javascript">
+    $("#female").click(function(event) {
+        $.get("dynamic/female", function(r) {
+            $("#name").val(r);
+        });
+    });
+    $("#myth").click(function(event) {
+        $.get("dynamic/myth", function(r) {
+            $("#name").val(r);
+        });
+    });
+    $("#male").click(function(event) {
+        $.get("dynamic/male", function(r) {
+            $("#name").val(r);
+        });
+    });
+</script>
+</body>
+</html>
