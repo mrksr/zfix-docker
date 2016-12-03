@@ -1,0 +1,10 @@
+* docker-compose for web services:
+** https://docs.docker.com/compose/wordpress/
+** https://docs.docker.com/compose/compose-file/
+** One database per web service?
+
+* docker-gen for nginx:
+** https://github.com/jwilder/nginx-proxy
+** https://github.com/jwilder/docker-gen
+
+* Shared User-Database?
