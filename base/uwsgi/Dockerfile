@@ -1,5 +1,4 @@
 FROM python:3
-
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN pip install --no-cache-dir uwsgi
