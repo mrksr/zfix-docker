@@ -1,10 +1,33 @@
-* docker-compose for web services:
-** https://docs.docker.com/compose/wordpress/
-** https://docs.docker.com/compose/compose-file/
-** One database per web service?
-
-* docker-gen for nginx:
-** https://github.com/jwilder/nginx-proxy
-** https://github.com/jwilder/docker-gen
-
-* Shared User-Database?
+* Services to include [2/12]
+** TODO auth
+** TODO letsencrypt
+** TODO hg
+** TODO git
+** DONE nginx
+   CLOSED: [2016-12-05 Mon 20:38]
+** TODO php
+** TODO sql, database
+** DONE mumble
+   CLOSED: [2016-12-05 Mon 20:38]
+** TODO prosody
+** TODO mail [0/5]
+*** TODO dovecot
+*** TODO mailman
+*** TODO postfix
+*** TODO rspamd
+*** TODO webmail
+** TODO radicale
+** TODO web things [1/12]
+*** TODO default
+*** DONE flask
+    CLOSED: [2016-12-05 Mon 20:39]
+*** TODO hassprophet
+*** TODO markus
+*** TODO master
+*** TODO mongan
+*** TODO openid
+*** TODO pic
+*** TODO sanguine
+*** TODO tobi
+*** TODO uniwiki
+*** TODO wawot
