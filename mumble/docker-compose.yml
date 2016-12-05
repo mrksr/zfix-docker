@@ -1,0 +1,11 @@
+version: '2'
+services:
+  mumble:
+    image: mrksr/mumble
+    build: .
+    ports:
+      - 64738:64738
+    volumes:
+      - ./mumble-server.ini:/etc/mumble-server.ini
+      # FIXME: proper path for lib
+      - ./lib:/var/lib/mumble-server
