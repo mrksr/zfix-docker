@@ -1,4 +1,4 @@
-* Services to include [2/12]
+* Services to include [2/13]
 ** TODO auth
 ** TODO letsencrypt
 ** TODO hg
@@ -17,6 +17,7 @@
 *** TODO rspamd
 *** TODO webmail
 ** TODO radicale
+** TODO syncthing
 ** TODO web things [1/12]
 *** TODO default
 *** DONE flask
