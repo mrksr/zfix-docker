@@ -1,4 +1,4 @@
-* Services to include [2/13]
+* Services to include [3/13]
 ** TODO auth
 ** TODO letsencrypt
 ** TODO hg
@@ -9,7 +9,8 @@
 ** TODO sql, database
 ** DONE mumble
    CLOSED: [2016-12-05 Mon 20:38]
-** TODO prosody
+** DONE prosody
+   CLOSED: [2016-12-06 Tue 22:02]
 ** TODO mail [0/5]
 *** TODO dovecot
 *** TODO mailman
