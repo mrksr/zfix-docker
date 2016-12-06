@@ -15,6 +15,7 @@ services:
 
   namegen:
     image: mrksr/namegen
+    build: .
     volumes:
       - ./src/backend:/src
       - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini
