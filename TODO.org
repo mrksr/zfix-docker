@@ -1,8 +1,10 @@
-* Services to include [3/13]
+* Services to include [3/15]
 ** TODO auth
 ** TODO letsencrypt
 ** TODO hg
+*** hgweb
 ** TODO git
+*** gogs
 ** DONE nginx
    CLOSED: [2016-12-05 Mon 20:38]
 ** TODO php
@@ -33,3 +35,8 @@
 *** TODO tobi
 *** TODO uniwiki
 *** TODO wawot
+** TODO Sharelatex?
+** TODO Online Jabber client?
+*** Movim! https://movim.eu/
+*** JSXC https://www.jsxc.org/
+*** Wsl nicht Jappix, nicht mehr maintained
