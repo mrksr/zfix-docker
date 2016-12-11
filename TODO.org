@@ -1,4 +1,4 @@
-* Services to include [3/15]
+* Services to include [4/15]
 ** TODO auth
 ** TODO letsencrypt
 ** TODO hg
@@ -19,7 +19,8 @@
 *** TODO postfix
 *** TODO rspamd
 *** TODO webmail
-** TODO radicale
+** DONE radicale
+   CLOSED: [2016-12-11 Sun 23:16]
 ** TODO syncthing
 ** TODO web things [1/12]
 *** TODO default
