@@ -1,0 +1,42 @@
+version: '2'
+services:
+  nginx_config:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - syncthing
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./stdauth_private:/etc/nginx/stdauth_private:ro
+    environment:
+      - VIRTUAL_HOST=syncthing.zfix.org,syncthing.mrksr.de
+
+  nginx_fileserver:
+    image: nginx
+    networks:
+      - default
+      - web
+    volumes:
+      - ./nginx_fileserver.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./stdauth_private:/etc/nginx/stdauth_private:ro
+    volumes_from:
+      - syncthing:ro
+    environment:
+      - VIRTUAL_HOST=m.zfix.org,m.mrksr.de,b.zfix.org,b.mrksr.de,btsync.zfix.org,btsync.mrksr.de,s.zfix.org,s.mrksr.de
+
+  syncthing:
+    image: mrksr/syncthing
+    build: .
+    ports:
+      - 22000:22000
+      - 21024:21027
+    volumes:
+      - ./lib/config:/syncthing/config
+      - ./lib/data:/syncthing/data
+
+networks:
+  web:
+    external:
+      name: nginx_default

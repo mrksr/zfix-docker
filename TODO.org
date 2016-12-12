@@ -1,4 +1,4 @@
-* Services to include [4/15]
+* Services to include [5/15]
 ** TODO auth
 ** TODO letsencrypt
 ** TODO hg
@@ -13,21 +13,23 @@
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE prosody
    CLOSED: [2016-12-06 Tue 22:02]
-** TODO mail [0/5]
-*** TODO dovecot
-*** TODO mailman
-*** TODO postfix
-*** TODO rspamd
-*** TODO webmail
+** TODO mail
+*** dovecot
+*** postfix
+*** rspamd
+*** webmail
+*** mailman
 ** DONE radicale
    CLOSED: [2016-12-11 Sun 23:16]
-** TODO syncthing
-** TODO web things [1/12]
+** DONE syncthing
+   CLOSED: [2016-12-12 Mon 23:23]
+** TODO web things [2/12]
 *** TODO default
 *** DONE flask
     CLOSED: [2016-12-05 Mon 20:39]
 *** TODO hassprophet
-*** TODO markus
+*** DONE markus
+    CLOSED: [2016-12-12 Mon 23:38]
 *** TODO master
 *** TODO mongan
 *** TODO openid
