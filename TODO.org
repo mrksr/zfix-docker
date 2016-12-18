@@ -1,14 +1,14 @@
-* Services to include [5/15]
-** TODO auth
-** TODO letsencrypt
-** TODO hg
-*** hgweb
-** TODO git
-*** gogs
-** DONE nginx
-   CLOSED: [2016-12-05 Mon 20:38]
+* Services to include [5/13]
 ** TODO php
 ** TODO sql, database
+** TODO hg
+*** hgweb
+*** ssh and https
+** TODO git
+*** gogs
+*** ssh and https
+** DONE nginx
+   CLOSED: [2016-12-05 Mon 20:38]
 ** DONE mumble
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE prosody
@@ -25,21 +25,27 @@
    CLOSED: [2016-12-12 Mon 23:23]
 ** TODO web things [2/12]
 *** TODO default
-*** DONE flask
-    CLOSED: [2016-12-05 Mon 20:39]
-*** TODO hassprophet
-*** DONE markus
-    CLOSED: [2016-12-12 Mon 23:38]
-*** TODO master
 *** TODO mongan
 *** TODO openid
 *** TODO pic
-*** TODO sanguine
 *** TODO tobi
-*** TODO uniwiki
+*** DONE flask
+    CLOSED: [2016-12-05 Mon 20:39]
+*** DONE markus
+    CLOSED: [2016-12-12 Mon 23:38]
+*** TODO master
+*** TODO hassprophet
 *** TODO wawot
+*** TODO uniwiki
+*** TODO sanguine
 ** TODO Sharelatex?
 ** TODO Online Jabber client?
 *** Movim! https://movim.eu/
 *** JSXC https://www.jsxc.org/
-*** Wsl nicht Jappix, nicht mehr maintained
+*** Not Jappix, since it is no longer maintained
+* Non-Docker [0/4]
+** TODO ssh
+** TODO sslh
+*** http://www.rutschle.net/tech/sslh.shtml
+** TODO auth
+** TODO letsencrypt
