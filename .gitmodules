@@ -1,3 +1,3 @@
 [submodule "nginx/nginx-proxy"]
-	path = nginx/nginx-proxy
+	path = applications/nginx/nginx-proxy
 	url = https://github.com/jwilder/nginx-proxy
