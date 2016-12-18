@@ -1,0 +1,26 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./nginx.conf.d:/etc/nginx/conf.d:ro
+      - ./php_inc:/etc/nginx/php_inc:ro
+    environment:
+      - VIRTUAL_HOST=zfix.org # Default
+
+  php:
+    image: mrksr/php
+    volumes:
+      - ./lib:/srv
+
+networks:
+  web:
+    external:
+      name: nginx_default
