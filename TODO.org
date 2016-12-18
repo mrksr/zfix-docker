@@ -1,6 +1,8 @@
-* Services to include [5/13]
-** TODO php
-** TODO sql, database
+* Services to include [7/13]
+** DONE php
+   CLOSED: [2016-12-18 Sun 19:42]
+** DONE sql, database
+   CLOSED: [2016-12-18 Sun 19:49]
 ** TODO hg
 *** hgweb
 *** ssh and https
@@ -23,8 +25,9 @@
    CLOSED: [2016-12-11 Sun 23:16]
 ** DONE syncthing
    CLOSED: [2016-12-12 Mon 23:23]
-** TODO web things [2/12]
-*** TODO default
+** TODO web things [3/12]
+*** DONE default
+    CLOSED: [2016-12-18 Sun 19:42]
 *** TODO mongan
 *** TODO openid
 *** TODO pic
