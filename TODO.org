@@ -1,14 +1,13 @@
-* Services to include [7/13]
+* Services to include [8/11]
 ** DONE php
    CLOSED: [2016-12-18 Sun 19:42]
 ** DONE sql, database
    CLOSED: [2016-12-18 Sun 19:49]
-** TODO hg
+** DONE hg
+   CLOSED: [2016-12-20 Tue 22:58]
 *** hgweb
-*** ssh and https
 ** TODO git
-*** gogs
-*** ssh and https
+*** gitea
 ** DONE nginx
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE mumble
@@ -41,14 +40,21 @@
 *** TODO wawot
 *** TODO uniwiki
 *** TODO sanguine
-** TODO Sharelatex?
-** TODO Online Jabber client?
+** Sharelatex?
+** Online Jabber client?
 *** Movim! https://movim.eu/
 *** JSXC https://www.jsxc.org/
 *** Not Jappix, since it is no longer maintained
+* Deployment [0/3]
+** TODO lib folders
+** TODO uids and gids
+** TODO database migrations
 * Non-Docker [0/4]
 ** TODO ssh
+*** hg
+*** git
 ** TODO sslh
 *** http://www.rutschle.net/tech/sslh.shtml
 ** TODO auth
 ** TODO letsencrypt
+** TODO backup

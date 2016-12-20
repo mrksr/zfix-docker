@@ -1,0 +1,36 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - hg
+      - tutor
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./src/static:/static:ro
+    environment:
+      - VIRTUAL_HOST=hg.zfix.org,hg.mrksr.de,tutor.zfix.org,info2.zfix.org,theo.zfix.org,ds.zfix.org
+
+  hg:
+    image: mrksr/hgweb
+    build: .
+    volumes:
+      - ./src/hgweb:/src:ro
+      - ./uwsgi_hg.ini:/etc/uwsgi/uwsgi.ini:ro
+      - ./lib/repos/hg:/repos:ro
+
+  tutor:
+    image: mrksr/hgweb
+    build: .
+    volumes:
+      - ./src/hgweb:/src:ro
+      - ./uwsgi_tutor.ini:/etc/uwsgi/uwsgi.ini:ro
+      - ./lib/repos/tutor:/repos:ro
+
+networks:
+  web:
+    external:
+      name: nginx_default
