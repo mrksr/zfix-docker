@@ -1,0 +1,38 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - gitea
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    environment:
+      - VIRTUAL_HOST=git.zfix.org,git.mrksr.de
+
+  gitea:
+    image: gitea/gitea
+    build: .
+    ports:
+      - "2222:22"
+    volumes:
+      - ./lib/gitea:/data/gitea
+      - ./lib/git:/data/git
+    links:
+      - database
+
+  database:
+    image: postgres
+    volumes:
+      # FIXME: Proper lib path
+      - ./lib/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+
+networks:
+  web:
+    external:
+      name: nginx_default
