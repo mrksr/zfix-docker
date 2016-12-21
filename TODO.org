@@ -25,13 +25,15 @@
    CLOSED: [2016-12-11 Sun 23:16]
 ** DONE syncthing
    CLOSED: [2016-12-12 Mon 23:23]
-** TODO web things [3/12]
+** TODO web things [6/12]
 *** DONE default
     CLOSED: [2016-12-18 Sun 19:42]
-*** TODO mongan
-*** TODO openid
-*** TODO pic
-*** TODO tobi
+*** DONE mongan
+    CLOSED: [2016-12-21 Wed 22:31]
+*** DONE openid
+    CLOSED: [2016-12-21 Wed 22:32]
+*** DONE tobi
+    CLOSED: [2016-12-21 Wed 22:31]
 *** DONE flask
     CLOSED: [2016-12-05 Mon 20:39]
 *** DONE markus
@@ -40,16 +42,19 @@
 *** TODO hassprophet
 *** TODO wawot
 *** TODO uniwiki
-*** TODO sanguine
+*** TODO pic?
+*** TODO sanguine?
 ** Sharelatex?
 ** Online Jabber client?
 *** Movim! https://movim.eu/
 *** JSXC https://www.jsxc.org/
 *** Not Jappix, since it is no longer maintained
-* Deployment [0/3]
+* Deployment [0/4]
 ** TODO lib folders
 ** TODO uids and gids
 ** TODO database migrations
+** TODO radicale IMAP auth
+** TODO normalize database usernames
 * Non-Docker [0/4]
 ** TODO ssh
 *** hg
@@ -59,3 +64,5 @@
 ** TODO auth
 ** TODO letsencrypt
 ** TODO backup
+*** docker ps --filter ancestor=postgres --format {{.ID}}
+*** docker exec gitea_database_1 pg_dumpall -U gitea
