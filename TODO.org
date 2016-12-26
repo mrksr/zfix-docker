@@ -19,7 +19,10 @@
 *** dovecot
 *** postfix
 *** rspamd
-*** webmail
+*** webmail:
+**** http://www.afterlogic.org/webmail-lite
+**** https://www.mailpile.is/
+**** https://roundcube.net/
 *** mailman
 ** DONE radicale
    CLOSED: [2016-12-11 Sun 23:16]
@@ -43,12 +46,20 @@
 *** TODO wawot
 *** TODO uniwiki
 *** TODO pic?
+**** Currently: Lychee, which might be too much
+**** https://git.zx2c4.com/PhotoFloat/about/
 *** TODO sanguine?
 ** Sharelatex?
 ** Online Jabber client?
-*** Movim! https://movim.eu/
-*** JSXC https://www.jsxc.org/
+*** Kaiwa? http://getkaiwa.com/
+*** Movim? https://movim.eu/
+*** JSXC? https://www.jsxc.org/
 *** Not Jappix, since it is no longer maintained
+** Electronic Document Management
+*** Paperless: https://github.com/danielquinn/paperless
+*** Mayan: https://mayan.readthedocs.io/en/latest/
+** Money
+*** https://ihatemoney.org/
 * Deployment [0/4]
 ** TODO lib folders
 ** TODO uids and gids
@@ -62,7 +73,11 @@
 ** TODO sslh
 *** http://www.rutschle.net/tech/sslh.shtml
 ** TODO auth
+*** LDAP?
 ** TODO letsencrypt
 ** TODO backup
 *** docker ps --filter ancestor=postgres --format {{.ID}}
 *** docker exec gitea_database_1 pg_dumpall -U gitea
+* Resources
+** https://github.com/Kickball/awesome-selfhosted
+** https://github.com/n1trux/awesome-sysadmin
