@@ -1,6 +1,6 @@
-* Services to include [9/11]
+* Services to include [10/12]
 ** DONE php
-   CLOSED: [2016-12-18 Sun 19:42]
+   CLOSED: [2016-12-27 Tue 01:51]
 ** DONE sql, database
    CLOSED: [2016-12-18 Sun 19:49]
 ** DONE hg
@@ -24,6 +24,8 @@
 **** https://www.mailpile.is/
 **** https://roundcube.net/
 *** mailman
+** DONE ldap
+   CLOSED: [2016-12-27 Tue 01:50]
 ** DONE radicale
    CLOSED: [2016-12-11 Sun 23:16]
 ** DONE syncthing
@@ -60,20 +62,18 @@
 *** Mayan: https://mayan.readthedocs.io/en/latest/
 ** Money
 *** https://ihatemoney.org/
-* Deployment [0/4]
+* Deployment [0/5]
 ** TODO lib folders
 ** TODO uids and gids
 ** TODO database migrations
-** TODO radicale IMAP auth
 ** TODO normalize database usernames
+** TODO ldap auth (hopefully) everywhere
 * Non-Docker [0/4]
 ** TODO ssh
 *** hg
 *** git
 ** TODO sslh
 *** http://www.rutschle.net/tech/sslh.shtml
-** TODO auth
-*** LDAP?
 ** TODO letsencrypt
 ** TODO backup
 *** docker ps --filter ancestor=postgres --format {{.ID}}
