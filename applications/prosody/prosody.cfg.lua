@@ -1,5 +1,7 @@
 admins = { "markus@zfix.org" }
 
+daemonize = false;
+run_as_root = true;
 use_libevent = true;
 plugin_paths = { "/opt/prosody-modules" }
 
@@ -67,13 +69,16 @@ disco_items = {
   { "vjud.zfix.org" }
 };
 
+-- Logging
 default_archive_policy = false;
+archive_expires_after = "never";
 max_archive_query_results = 500;
 
 muc_log_by_default = true;
 muc_log_all_rooms = false;
 -- max_history_messages = 1000;
 
+-- Webchat-Stuff
 consider_websocket_secure = false;
 cross_domain_websocket = true;
 
@@ -81,27 +86,28 @@ consider_bosh_secure = false;
 cross_domain_bosh = true;
 bosh_max_inactivity = 30;
 
--- Disable account creation by default, for security
--- For more information see http://prosody.im/doc/creating_accounts
-allow_registration = true;
+-- Encryption
+ssl = {
+  -- key = "/srv/CA/private/jabber.key.pem";
+  -- certificate = "/srv/CA/certs/jabber.crt.pem";
+  -- key = "/etc/letsencrypt/live/zfix.org/privkey.pem";
+  -- certificate = "/etc/letsencrypt/live/zfix.org/fullchain.pem";
+  key = "/etc/prosody/certs/localhost.key";
+  certificate = "/etc/prosody/certs/localhost.crt";
 
-daemonize = false;
+  protocol = "tlsv1+";
+  ciphers = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
+  dhparam = "dhparam.pem";
+}
 
--- ssl = {
---   -- key = "/srv/CA/private/jabber.key.pem";
---   -- certificate = "/srv/CA/certs/jabber.crt.pem";
---   key = "/etc/letsencrypt/live/zfix.org/privkey.pem";
---   certificate = "/etc/letsencrypt/live/zfix.org/fullchain.pem";
+c2s_require_encryption = true
+s2s_require_encryption = true
 
---   protocol = "tlsv1+";
---   ciphers = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
---   dhparam = "dhparam.pem";
--- }
-
--- c2s_require_encryption = true
--- s2s_require_encryption = false
-
-authentication = "internal_hashed"
+-- authentication = "internal_hashed"
+authentication = "ldap"
+ldap_base = "ou=users,dc=zfix,dc=org"
+ldap_server = "ldap"
+allow_registration = false;
 
 default_storage = "sql"
 storage = {
@@ -111,20 +117,18 @@ storage = {
 
 sql = {
   driver = "PostgreSQL",
-  database = "prosody",
-  username = "prosody",
-  password = "prosody",
+  database = "postgres",
+  username = "postgres",
+  password = "postgres",
   host = "database"
 }
 
 -- Logging configuration
 -- For advanced logging see http://prosody.im/doc/logging
--- log = {
---     -- Log files (change 'info' to 'debug' for debug logs):
---     info = "/var/log/prosody/prosody.log";
---     error = "/var/log/prosody/prosody.err";
---     -- Syslog:
---     { levels = { "error" }; to = "syslog";  };
--- }
+log = {
+    -- Log files (change 'info' to 'debug' for debug logs):
+    info = "/dev/stdout";
+    error = "/dev/stderr";
+}
 
 Include "zfix.org.cfg.lua"

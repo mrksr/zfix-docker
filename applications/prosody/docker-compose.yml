@@ -3,16 +3,21 @@ services:
   prosody:
     image: mrksr/prosody
     build: .
+    networks:
+      - default
+      - ldap
     ports:
       - 5222:5222
       - 5269:5269
       - 5280:5280
     volumes:
-      - ./prosody.cfg.lua:/etc/prosody/prosody.cfg.lua
-      - ./zfix.org.cfg.lua:/etc/prosody/zfix.org.cfg.lua
-      - ./dhparam.pem:/etc/prosody/dhparam.pem
+      - ./prosody.cfg.lua:/etc/prosody/prosody.cfg.lua:ro
+      - ./zfix.org.cfg.lua:/etc/prosody/zfix.org.cfg.lua:ro
+      - ./dhparam.pem:/etc/prosody/dhparam.pem:ro
     links:
       - database
+    external_links:
+      - ldap
 
   database:
     image: postgres
@@ -20,5 +25,10 @@ services:
       # FIXME: Proper lib path
       - ./lib:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=prosody
-      - POSTGRES_PASSWORD=prosody
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  ldap:
+    external:
+      name: ldap_default

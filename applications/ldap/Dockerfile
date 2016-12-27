@@ -9,4 +9,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 EXPOSE 389
 
-CMD ["/usr/sbin/slapd", "-h", "ldap:/// ldapi:///", "-u", "openldap", "-g", "openldap", "-d", "256"]
+CMD ["/usr/sbin/slapd", "-h", "ldap:/// ldapi://localhost/", "-u", "openldap", "-g", "openldap", "-d", "256"]
