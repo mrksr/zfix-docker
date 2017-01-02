@@ -1,0 +1,43 @@
+version: '2'
+services:
+  mail:
+    image: mrksr/mail
+    build: .
+    networks:
+      - default
+      - ldap
+    ports:
+      - "25:25"
+      - "110:110"
+      - "143:143"
+      - "465:465"
+      - "587:587"
+      - "993:993"
+      - "995:995"
+      - "4190:4190"
+    volumes:
+      - ./lib/mail:/vmail
+    links:
+      - database
+      - redis
+    external_links:
+      - ldap
+
+  database:
+    image: postgres
+    volumes:
+      # FIXME: Proper lib path
+      - ./lib/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis
+    volumes:
+      - ./lib/redis:/data
+
+networks:
+  ldap:
+    external:
+      name: ldap_default
