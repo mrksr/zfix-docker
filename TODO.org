@@ -75,6 +75,7 @@
 ** TODO sslh
 *** http://www.rutschle.net/tech/sslh.shtml
 ** TODO letsencrypt
+*** https://github.com/hlandau/acme
 ** TODO backup
 *** docker ps --filter ancestor=postgres --format {{.ID}}
 *** docker exec gitea_database_1 pg_dumpall -U gitea
