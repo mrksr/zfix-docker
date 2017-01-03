@@ -1,0 +1,105 @@
+compatibility_level = 2
+
+
+# Internet and Hostnames
+inet_protocols = ipv4 ipv6
+inet_interfaces = all
+
+biff = no
+append_dot_mydomain = no
+
+myhostname = smtp.zfix.org
+mydomain = zfix.org
+myorigin = $mydomain
+mynetworks = 127.0.0.0/8 [::1]/128
+
+transport_maps = inline:{ lists.zfix.org=mailman: }
+recipient_delimiter = +
+
+
+# SMTP
+smtpd_banner = $myhostname ESMTP $mail_name - Kennsch du an Mongan?
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_exceptions_networks = $mynetworks
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_local_domain = $myhostname
+broken_sasl_auth_clients = yes
+
+smtp_destination_concurrency_limit = 2
+smtp_destination_rate_delay = 1s
+smtpd_reject_unlisted_recipient = no
+smtpd_delay_reject = yes
+
+smtpd_helo_required = yes
+disable_vrfy_command = yes
+
+smtpd_helo_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_invalid_helo_hostname,
+    reject_non_fqdn_helo_hostname,
+    reject_unknown_helo_hostname
+
+smtpd_sender_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_non_fqdn_sender,
+    reject_unknown_sender_domain,
+    reject_sender_login_mismatch
+
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination,
+    reject_invalid_hostname,
+    reject_non_fqdn_hostname,
+    reject_non_fqdn_sender,
+    reject_non_fqdn_recipient,
+    reject_unknown_sender_domain,
+    reject_unknown_recipient_domain,
+    reject_rbl_client ix.dnsbl.manitu.net,
+    reject_rbl_client bl.spamcop.net,
+    reject_rbl_client sbl-xbl.spamhaus.org,
+    reject_rhsbl_helo db1.spamhaus.org,
+    reject_rhsbl_client db1.spamhaus.org,
+    permit
+
+
+# SSL
+smtpd_use_tls=yes
+
+smtpd_tls_cert_file=/etc/letsencrypt/live/zfix.org/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/zfix.org/privkey.pem
+
+smtpd_tls_dh1024_param_file = ${config_directory}/dhparam2048.pem
+smtpd_tls_mandatory_protocols = !SSLv2,!SSLv3
+smtpd_tls_mandatory_ciphers = high
+tls_high_cipherlist = ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
+tls_preempt_cipherlist = yes
+
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+
+# Virtual Domains
+mydestination =
+local_recipient_maps =
+local_transport	= virtual
+
+relay_domains = lists.zfix.org
+relay_recipient_maps =
+
+virtual_mailbox_domains = zfix.org mrksr.de whatawasteoftalent.com scheissn.net hassprophet.de
+virtual_mailbox_maps = proxy:ldap:$config_directory/ldap_virtual_mailbox_maps.cf
+virtual_alias_maps = proxy:ldap:$config_directory/ldap_virtual_alias_maps.cf
+
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+default_destination_recipient_limit = 1
+
+# Ignored:
+# virtual_mailbox_base = /vmail
+# virtual_uid_maps = static:vmail
+# virtual_gid_maps = static:vmail

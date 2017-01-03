@@ -1,0 +1,5 @@
+server_host = ldap
+search_base = ou=aliases,dc=zfix,dc=org
+
+query_filter = (&(objectClass=nisMailAlias)(cn=%s))
+result_attribute = rfc822MailMember

@@ -1,0 +1,5 @@
+server_host = ldap
+search_base = ou=users,dc=zfix,dc=org
+
+query_filter = (&(objectClass=posixAccount)(mail=%s))
+result_attribute = mail
