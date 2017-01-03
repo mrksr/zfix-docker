@@ -93,8 +93,8 @@ relay_domains = lists.zfix.org
 relay_recipient_maps =
 
 virtual_mailbox_domains = zfix.org mrksr.de whatawasteoftalent.com scheissn.net hassprophet.de
-virtual_mailbox_maps = proxy:ldap:$config_directory/ldap_virtual_mailbox_maps.cf
-virtual_alias_maps = proxy:ldap:$config_directory/ldap_virtual_alias_maps.cf
+virtual_mailbox_maps = proxy:ldap:$config_directory/ldap/ldap_virtual_mailbox_maps.cf
+virtual_alias_maps = proxy:ldap:$config_directory/ldap/ldap_virtual_alias_maps.cf
 
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 default_destination_recipient_limit = 1
