@@ -15,15 +15,21 @@
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE prosody
    CLOSED: [2016-12-06 Tue 22:02]
-** TODO mail
-*** dovecot
-*** postfix
-*** rspamd
-*** webmail:
+** TODO mail [1/4]
+*** DONE dovecot
+    CLOSED: [2017-01-03 Tue 18:47]
+*** TODO postfix
+*** TODO rspamd
+*** TODO webmail:
 **** http://www.afterlogic.org/webmail-lite
 **** https://www.mailpile.is/
 **** https://roundcube.net/
 *** mailman
+*** Required Users
+**** dovecot
+**** dovenull
+**** postfix
+**** vmail
 ** DONE ldap
    CLOSED: [2016-12-27 Tue 01:50]
 ** DONE radicale
