@@ -25,11 +25,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       postfix-ldap \
       rmilter \
       rspamd \
+      rsyslog \
       supervisor \
     && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 5000 vmail && \
+    useradd -g vmail -u 5000 -d /srv/vmail -M -s /usr/sbin/nologin vmail
 
 VOLUME /vmail
 
 EXPOSE 25 110 143 465 587 993 995 4190
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]

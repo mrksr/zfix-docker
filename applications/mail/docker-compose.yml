@@ -17,6 +17,8 @@ services:
       - "4190:4190"
     volumes:
       - ./lib/mail:/vmail
+      - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
+      - ./postfix-wrapper.sh:/usr/sbin/postfix-wrapper.sh:ro
       - ./dovecot:/etc/dovecot:ro
       # We need to specify single files for postfix to keep the dynamicmaps.cf which is part of the container.
       - ./postfix/main.cf:/etc/postfix/main.cf:ro
