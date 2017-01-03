@@ -16,7 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       dovecot-common \
       dovecot-imapd \
       dovecot-ldap \
-      dovecot-lmtp \
+      dovecot-lmtpd \
       dovecot-managesieved \
       dovecot-sieve \
       opendkim \
