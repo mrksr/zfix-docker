@@ -17,6 +17,8 @@ services:
       - "4190:4190"
     volumes:
       - ./lib/mail:/vmail
+      - ./lib/dkim:/dkim:ro
+      - ./lib/letsencrypt:/letsencrypt:ro
       - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
       - ./postfix-wrapper.sh:/usr/sbin/postfix-wrapper.sh:ro
       - ./dovecot:/etc/dovecot:ro
@@ -26,19 +28,9 @@ services:
       - ./postfix/ldap:/etc/postfix/ldap:ro
       - ./postfix/dhparam2048.pem:/etc/postfix/dhparam2048:ro
     links:
-      - database
       - redis
     external_links:
       - ldap
-
-  database:
-    image: postgres
-    volumes:
-      # FIXME: Proper lib path
-      - ./lib/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis

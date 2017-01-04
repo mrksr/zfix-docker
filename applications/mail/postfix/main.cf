@@ -71,8 +71,8 @@ smtpd_recipient_restrictions =
 # SSL
 smtpd_use_tls=yes
 
-smtpd_tls_cert_file=/etc/letsencrypt/live/zfix.org/fullchain.pem
-smtpd_tls_key_file=/etc/letsencrypt/live/zfix.org/privkey.pem
+smtpd_tls_cert_file=/letsencrypt/fullchain.pem
+smtpd_tls_key_file=/letsencrypt/privkey.pem
 
 smtpd_tls_dh1024_param_file = ${config_directory}/dhparam2048.pem
 smtpd_tls_mandatory_protocols = !SSLv2,!SSLv3
