@@ -16,17 +16,26 @@ services:
       - "995:995"
       - "4190:4190"
     volumes:
+      # state
       - ./lib/mail:/vmail
       - ./lib/dkim:/dkim:ro
       - ./lib/letsencrypt:/letsencrypt:ro
+
+      # programs
       - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
-      - ./postfix-wrapper.sh:/usr/sbin/postfix-wrapper.sh:ro
+
       - ./dovecot:/etc/dovecot:ro
+
       # We need to specify single files for postfix to keep the dynamicmaps.cf which is part of the container.
+      - ./postfix-wrapper.sh:/usr/sbin/postfix-wrapper.sh:ro
       - ./postfix/main.cf:/etc/postfix/main.cf:ro
       - ./postfix/master.cf:/etc/postfix/master.cf:ro
       - ./postfix/ldap:/etc/postfix/ldap:ro
       - ./postfix/dhparam2048.pem:/etc/postfix/dhparam2048:ro
+
+      - ./rmilter.conf:/etc/rmilter.conf:ro
+      - ./rspamd/local.d:/etc/rspamd/local.d:ro
+      - ./rspamd/override.d:/etc/rspamd/override.d:ro
     links:
       - redis
     external_links:

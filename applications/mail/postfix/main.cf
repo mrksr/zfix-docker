@@ -103,3 +103,10 @@ default_destination_recipient_limit = 1
 # virtual_mailbox_base = /vmail
 # virtual_uid_maps = static:vmail
 # virtual_gid_maps = static:vmail
+
+
+# Milters
+smtpd_milters = inet:localhost:9900
+milter_protocol = 6
+milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}
+milter_default_action = accept
