@@ -32,7 +32,7 @@ services:
       - ./postfix/main.cf:/etc/postfix/main.cf:ro
       - ./postfix/master.cf:/etc/postfix/master.cf:ro
       - ./postfix/ldap:/etc/postfix/ldap:ro
-      - ./postfix/dhparam2048.pem:/etc/postfix/dhparam2048:ro
+      - ./postfix/dhparam2048.pem:/etc/postfix/dhparam2048.pem:ro
 
       - ./rmilter.conf:/etc/rmilter.conf:ro
       - ./rspamd/local.d:/etc/rspamd/local.d:ro
