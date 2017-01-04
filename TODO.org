@@ -1,4 +1,4 @@
-* Services to include [10/12]
+* Services to include [11/12]
 ** DONE php
    CLOSED: [2016-12-27 Tue 01:51]
 ** DONE sql, database
@@ -15,21 +15,19 @@
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE prosody
    CLOSED: [2016-12-06 Tue 22:02]
-** TODO mail [1/4]
+** DONE mail [3/4]
+   CLOSED: [2017-01-04 Wed 22:44]
 *** DONE dovecot
     CLOSED: [2017-01-03 Tue 18:47]
-*** TODO postfix
-*** TODO rspamd
+*** DONE postfix
+    CLOSED: [2017-01-04 Wed 22:43]
+*** DONE rspamd
+    CLOSED: [2017-01-04 Wed 22:43]
 *** TODO webmail:
 **** http://www.afterlogic.org/webmail-lite
 **** https://www.mailpile.is/
 **** https://roundcube.net/
 *** mailman
-*** Required Users
-**** dovecot
-**** dovenull
-**** postfix
-**** vmail
 ** DONE ldap
    CLOSED: [2016-12-27 Tue 01:50]
 ** DONE radicale
