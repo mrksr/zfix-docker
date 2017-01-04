@@ -20,6 +20,7 @@ services:
       - ./lib/mail:/vmail
       - ./lib/dkim:/dkim:ro
       - ./lib/letsencrypt:/letsencrypt:ro
+      - /etc/localtime:/etc/localtime:ro
 
       # programs
       - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
