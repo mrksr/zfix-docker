@@ -74,14 +74,32 @@ hosts = 0.0.0.0:3031
 
 # Authentication method
 # Value: None | htpasswd
-#type = None
+type = LDAP
 
-# Htpasswd filename
-#htpasswd_filename = /etc/radicale/users
+# LDAP server URL, with protocol and port
+ldap_url = ldap://ldap:389/
 
-# Htpasswd encryption method
-# Value: plain | sha1 | ssha | crypt | bcrypt | md5
-#htpasswd_encryption = crypt
+# LDAP base path
+ldap_base = ou=users,dc=zfix,dc=org
+
+# LDAP login attribute
+ldap_attribute = uid
+
+# LDAP filter string
+# placed as X in a query of the form (&(...)X)
+# example: (objectCategory=Person)(objectClass=User)(memberOf=cn=calenderusers,ou=users,dc=example,dc=org)
+# leave empty if no additional filter is needed
+ldap_filter = (objectClass=posixAccount)
+
+# LDAP dn for initial login, used if LDAP server does not allow anonymous searches
+# Leave empty if searches are anonymous
+#ldap_binddn =
+
+# LDAP password for initial login, used with ldap_binddn
+#ldap_password =
+
+# LDAP scope of the search
+#ldap_scope = OneLevel
 
 
 [rights]

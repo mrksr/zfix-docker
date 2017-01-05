@@ -17,13 +17,21 @@ services:
   radicale:
     image: mrksr/radicale
     build: .
+    networks:
+      - default
+      - ldap
     volumes:
       - ./radicale.wsgi:/src/radicale.wsgi:ro
       - ./radicale:/etc/radicale:ro
       - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini:ro
       - /srv/webdav:/radicale
+    external_links:
+      - ldap
 
 networks:
   web:
     external:
       name: nginx_default
+  ldap:
+    external:
+      name: ldap_default
