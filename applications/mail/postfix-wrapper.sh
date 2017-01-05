@@ -21,6 +21,13 @@ trap "postfix stop" SIGINT
 trap "postfix stop" SIGTERM
 trap "postfix reload" SIGHUP
 
+# prepare chroot (taken from postfix init script)
+FILES="localtime services resolv.conf hosts host.conf nsswitch.conf nss_mdns.config"
+for file in $FILES; do
+    cp /etc/${file} /var/spool/postfix/etc/${file}
+    chmod a+rX /var/spool/postfix/etc/${file}
+done
+
 # start postfix
 postfix start
 
