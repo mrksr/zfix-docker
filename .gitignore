@@ -1,4 +1,5 @@
 **/lib/**
+*.pyc
 
 # Generated files
 docker-gen*
