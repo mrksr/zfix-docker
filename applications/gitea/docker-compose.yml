@@ -11,6 +11,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     environment:
       - VIRTUAL_HOST=git.zfix.org,git.mrksr.de
+      - CERT_NAME=shared
 
   gitea:
     image: gitea/gitea

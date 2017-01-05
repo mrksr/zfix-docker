@@ -13,6 +13,7 @@ services:
       - ./src/static:/static:ro
     environment:
       - VIRTUAL_HOST=hg.zfix.org,hg.mrksr.de,tutor.zfix.org,info2.zfix.org,theo.zfix.org,ds.zfix.org
+      - CERT_NAME=shared
 
   hg:
     image: mrksr/hgweb

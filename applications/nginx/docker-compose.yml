@@ -8,6 +8,7 @@ services:
       - 443:443
     volumes:
       - ./nginx.conf.d:/etc/nginx/conf.d
+      - /srv/letsencrypt:/etc/nginx/certs:ro
 
   dockergen:
     image: jwilder/docker-gen
@@ -19,3 +20,4 @@ services:
       - ./nginx-proxy/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
     environment:
       - DEFAULT_HOST=zfix.org
+      - CERT_NAME=shared

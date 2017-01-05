@@ -12,6 +12,7 @@ services:
       - ./src/frontend:/static:ro
     environment:
       - VIRTUAL_HOST=flask.zfix.org,flask.mrksr.de
+      - CERT_NAME=shared
 
   namegen:
     image: mrksr/namegen

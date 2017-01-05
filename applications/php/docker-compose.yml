@@ -14,6 +14,7 @@ services:
       - ./php_inc:/etc/nginx/php_inc:ro
     environment:
       - VIRTUAL_HOST=zfix.org # Default
+      - CERT_NAME=shared
 
   php:
     image: mrksr/php

@@ -12,6 +12,7 @@ services:
       - ./radicale/users:/etc/radicale/users:ro
     environment:
       - VIRTUAL_HOST=radicale.zfix.org,radicale.mrksr.de,dav.zfix.org,dav.mrksr.de
+      - CERT_NAME=shared
 
   radicale:
     image: mrksr/radicale

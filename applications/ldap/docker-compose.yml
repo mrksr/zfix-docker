@@ -22,6 +22,7 @@ services:
       - ./php_inc:/etc/nginx/php_inc:ro
     environment:
       - VIRTUAL_HOST=ldap.zfix.org,ldap.mrksr.de
+      - CERT_NAME=shared
 
   php:
     image: mrksr/php

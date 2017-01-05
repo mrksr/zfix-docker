@@ -12,6 +12,7 @@ services:
       - ./stdauth_private:/etc/nginx/stdauth_private:ro
     environment:
       - VIRTUAL_HOST=syncthing.zfix.org,syncthing.mrksr.de
+      - CERT_NAME=shared
 
   nginx_fileserver:
     image: nginx
@@ -25,6 +26,7 @@ services:
       - syncthing:ro
     environment:
       - VIRTUAL_HOST=m.zfix.org,m.mrksr.de,b.zfix.org,b.mrksr.de,btsync.zfix.org,btsync.mrksr.de,s.zfix.org,s.mrksr.de
+      - CERT_NAME=shared
 
   syncthing:
     image: mrksr/syncthing
