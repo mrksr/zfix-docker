@@ -1,6 +1,7 @@
-.PHONY: base uwsgi php
+.PHONY: base uwsgi php service
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-all: base uwsgi php
+all: base uwsgi php service
 
 base:
 	docker build --tag mrksr/base base/base
@@ -11,3 +12,6 @@ uwsgi:
 
 php:
 	docker build --tag mrksr/php base/php
+
+service:
+	sed -e "s!{{REPO_PATH}}!$(MAKEFILE_DIR)!g" zfix-docker@.service.in > zfix-docker@.service

@@ -1,3 +1,5 @@
-docker-gen*
-
 **/lib/**
+
+# Generated files
+docker-gen*
+zfix-docker@.service
