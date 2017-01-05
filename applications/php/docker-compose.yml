@@ -18,7 +18,7 @@ services:
   php:
     image: mrksr/php
     volumes:
-      - ./lib:/srv
+      - /srv/php:/srv
 
 networks:
   web:

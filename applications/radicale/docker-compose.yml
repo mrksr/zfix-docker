@@ -11,7 +11,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./radicale/users:/etc/radicale/users:ro
     environment:
-      - VIRTUAL_HOST=radicale.zfix.org,radicale.mrksr.de
+      - VIRTUAL_HOST=radicale.zfix.org,radicale.mrksr.de,dav.zfix.org,dav.mrksr.de
 
   radicale:
     image: mrksr/radicale
@@ -20,7 +20,7 @@ services:
       - ./radicale.wsgi:/src/radicale.wsgi:ro
       - ./radicale:/etc/radicale:ro
       - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini:ro
-      - ./lib:/radicale
+      - /srv/webdav:/radicale
 
 networks:
   web:
