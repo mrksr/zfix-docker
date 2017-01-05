@@ -4,8 +4,8 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-ExecStartPre=-/usr/local/bin/docker-compose -f {{REPO_PATH}}/applications/%i/docker-compose.yml pull --ignore-pull-failures
-ExecStartPre=-/usr/local/bin/docker-compose -f {{REPO_PATH}}/applications/%i/docker-compose.yml build
+# ExecStartPre=-/usr/local/bin/docker-compose -f {{REPO_PATH}}/applications/%i/docker-compose.yml pull --ignore-pull-failures
+# ExecStartPre=-/usr/local/bin/docker-compose -f {{REPO_PATH}}/applications/%i/docker-compose.yml build
 ExecStart=/usr/local/bin/docker-compose -f {{REPO_PATH}}/applications/%i/docker-compose.yml up
 
 [Install]
