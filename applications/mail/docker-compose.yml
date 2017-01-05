@@ -17,9 +17,9 @@ services:
       - "4190:4190"
     volumes:
       # state
-      - ./lib/mail:/vmail
-      - ./lib/dkim:/dkim:ro
-      - ./lib/letsencrypt:/letsencrypt:ro
+      - /srv/mail/mail:/vmail
+      - /srv/mail/dkim:/dkim:ro
+      - /srv/letsencrypt:/letsencrypt:ro
       - /etc/localtime:/etc/localtime:ro
 
       # programs
@@ -45,7 +45,7 @@ services:
   redis:
     image: redis
     volumes:
-      - ./lib/redis:/data
+      - /srv/mail/redis:/data
 
 networks:
   ldap:

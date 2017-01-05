@@ -22,8 +22,7 @@ services:
   database:
     image: postgres
     volumes:
-      # FIXME: Proper lib path
-      - ./lib:/var/lib/postgresql/data
+      - /srv/prosody/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

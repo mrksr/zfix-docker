@@ -20,7 +20,7 @@ services:
     volumes:
       - ./src/hgweb:/src:ro
       - ./uwsgi_hg.ini:/etc/uwsgi/uwsgi.ini:ro
-      - ./lib/repos/hg:/repos:ro
+      - /srv/hg/hg:/repos:ro
 
   tutor:
     image: mrksr/hgweb
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./src/hgweb:/src:ro
       - ./uwsgi_tutor.ini:/etc/uwsgi/uwsgi.ini:ro
-      - ./lib/repos/tutor:/repos:ro
+      - /srv/hg/tutor:/repos:ro
 
 networks:
   web:

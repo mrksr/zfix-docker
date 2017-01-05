@@ -24,14 +24,13 @@ services:
     external_links:
       - ldap
     volumes:
-      - ./lib/gitea:/data/gitea
-      - ./lib/git:/data/git
+      - /srv/git/gitea:/data/gitea
+      - /srv/git/repos:/data/git
 
   database:
     image: postgres
     volumes:
-      # FIXME: Proper lib path
-      - ./lib/postgres:/var/lib/postgresql/data
+      - /srv/git/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
