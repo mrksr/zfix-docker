@@ -5,8 +5,8 @@ services:
     container_name: ldap
     build: .
     volumes:
-      - ./lib/config:/etc/ldap
-      - ./lib/data:/var/lib/ldap
+      - /srv/ldap/config:/etc/ldap
+      - /srv/ldap/data:/var/lib/ldap
 
   nginx:
     image: nginx
@@ -21,14 +21,14 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./php_inc:/etc/nginx/php_inc:ro
     environment:
-      - VIRTUAL_HOST=ldap.zfix.org
+      - VIRTUAL_HOST=ldap.zfix.org,ldap.mrksr.de
 
   php:
     image: mrksr/php
     links:
       - ldap
     volumes:
-      - ./lib/ldap-account-manager:/srv
+      - /srv/ldap/ldap-account-manager:/srv
 
 networks:
   web:
