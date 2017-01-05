@@ -4,8 +4,9 @@ services:
     image: mrksr/mumble
     build: .
     ports:
-      - 64738:64738
+      - "64738:64738"
+      - "64738:64738/udp"
     volumes:
-      - ./mumble-server.ini:/etc/mumble-server.ini
-      # FIXME: proper path for lib
-      - ./lib:/var/lib/mumble-server
+      - ./mumble-server.ini:/etc/mumble-server.ini:ro
+      - /srv/letsencrypt:/letsencrypt:ro
+      - /srv/mumble:/var/lib/mumble-server
