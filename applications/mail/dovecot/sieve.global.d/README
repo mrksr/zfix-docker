@@ -1,0 +1,1 @@
+This is only a template folder, the actual global sieve dir is a volume since dovecot has to write to it.

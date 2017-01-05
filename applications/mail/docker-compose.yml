@@ -18,6 +18,7 @@ services:
     volumes:
       # state
       - /srv/mail/mail:/vmail
+      - /srv/mail/sieve.global.d:/sieve.global.d
       - /srv/mail/dkim:/dkim:ro
       - /srv/letsencrypt:/letsencrypt:ro
       - /etc/localtime:/etc/localtime:ro
