@@ -39,7 +39,7 @@ modules_enabled = {
   "watchregistrations"; -- Alert admins of registrations
   --"motd"; -- Send a message to users when they log in
 
-  -- Jappix
+  -- Webchat
   "http"; -- Serve static files from a directory over HTTP
   "bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
   "websocket";
