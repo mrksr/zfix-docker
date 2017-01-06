@@ -10,6 +10,8 @@ services:
       - 5222:5222
       - 5269:5269
       - 5280:5280
+      - 5281:5281
+      - 3478:3478/udp
     volumes:
       - ./prosody.cfg.lua:/etc/prosody/prosody.cfg.lua:ro
       - ./zfix.org.cfg.lua:/etc/prosody/zfix.org.cfg.lua:ro

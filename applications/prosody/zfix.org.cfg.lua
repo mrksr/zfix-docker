@@ -37,32 +37,3 @@ Component "pubsub.zfix.org" "pubsub"
 Component "vjud.zfix.org" "vjud"
   name = "zfix.org User Directory"
   synchronize_to_host_vcards = "zfix.org"
-
--- ---Set up a BOSH service
--- Component "bind.zfix.org" "http"
---   modules_enabled = { "bosh" }
-
--- ---Set up a WebSocket service
--- Component "websocket.zfix.org" "http"
---   modules_enabled = { "websocket" }
-
--- ---Set up a BOSH + WebSocket service
--- Component "me.zfix.org" "http"
---   modules_enabled = { "bosh", "websocket" }
-
--- ---Set up a statistics service
--- Component "stats.zfix.org" "http"
---   modules_enabled = { "server_status" }
-
---   server_status_basepath = "/xmppd/"
---   server_status_show_hosts = { "zfix.org", "anonymous.zfix.org" }
---   server_status_show_comps = { "muc.zfix.org", "proxy.zfix.org", "pubsub.zfix.org", "vjud.zfix.org" }
-
--- ---Set up an API service
--- -- Important: uses modules from https://github.com/jappix/jappix-xmppd-modules
--- Component "api.zfix.org" "http"
---   modules_enabled = { "api_user", "api_muc" }
-
--- -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
--- Component "proxy.zfix.org" "proxy65"
---   proxy65_acl = { "zfix.org", "anonymous.zfix.org" }
