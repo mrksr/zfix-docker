@@ -1,0 +1,37 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./php_inc:/etc/nginx/php_inc:ro
+    environment:
+      - VIRTUAL_HOST=webmail.zfix.org,webmail.mrksr.de
+      - CERT_NAME=shared
+
+  php:
+    image: mrksr/php
+    links:
+      - database
+    volumes:
+      - /srv/webmail/webmail-lite:/srv
+
+  database:
+    image: postgres
+    volumes:
+      - /srv/webmail/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  web:
+    external:
+      name: nginx_default
