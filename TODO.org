@@ -15,7 +15,7 @@
    CLOSED: [2016-12-05 Mon 20:38]
 ** DONE prosody
    CLOSED: [2016-12-06 Tue 22:02]
-** DONE mail [3/4]
+** DONE mail [4/4]
    CLOSED: [2017-01-04 Wed 22:44]
 *** DONE dovecot
     CLOSED: [2017-01-03 Tue 18:47]
@@ -23,7 +23,8 @@
     CLOSED: [2017-01-04 Wed 22:43]
 *** DONE rspamd
     CLOSED: [2017-01-04 Wed 22:43]
-*** TODO webmail:
+*** DONE webmail:
+    CLOSED: [2017-01-06 Fri 13:38]
 **** http://www.afterlogic.org/webmail-lite
 **** https://www.mailpile.is/
 **** https://roundcube.net/
@@ -66,14 +67,18 @@
 *** Mayan: https://mayan.readthedocs.io/en/latest/
 ** Money
 *** https://ihatemoney.org/
-* Deployment [0/5]
-** TODO lib folders
+* Deployment [3/5]
+** DONE lib folders
+   CLOSED: [2017-01-06 Fri 13:41]
 ** TODO uids and gids
 ** TODO database migrations
-** TODO normalize database usernames
-** TODO ldap auth (hopefully) everywhere
-* Non-Docker [0/4]
-** TODO ssh
+** DONE normalize database usernames
+   CLOSED: [2017-01-06 Fri 13:42]
+** DONE ldap auth (hopefully) everywhere
+   CLOSED: [2017-01-06 Fri 13:42]
+* Non-Docker [1/4]
+** DONE ssh
+   CLOSED: [2017-01-06 Fri 13:41]
 *** hg
 *** git
 ** TODO sslh
