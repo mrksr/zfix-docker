@@ -14,6 +14,7 @@ services:
       - ./prosody.cfg.lua:/etc/prosody/prosody.cfg.lua:ro
       - ./zfix.org.cfg.lua:/etc/prosody/zfix.org.cfg.lua:ro
       - ./dhparam.pem:/etc/prosody/dhparam.pem:ro
+      - /srv/letsencrypt:/letsencrypt:ro
     links:
       - database
     external_links:
