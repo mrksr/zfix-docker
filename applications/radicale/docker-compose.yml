@@ -9,7 +9,6 @@ services:
       - radicale
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./radicale/users:/etc/radicale/users:ro
     environment:
       - VIRTUAL_HOST=radicale.zfix.org,radicale.mrksr.de,dav.zfix.org,dav.mrksr.de
       - CERT_NAME=shared
