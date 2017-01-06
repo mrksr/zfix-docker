@@ -12,7 +12,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./src/static:/static:ro
     environment:
-      - VIRTUAL_HOST=hg.zfix.org,hg.mrksr.de,tutor.zfix.org,info2.zfix.org,theo.zfix.org,ds.zfix.org
+      - VIRTUAL_HOST=hg.zfix.org,tutor.zfix.org,info2.zfix.org,theo.zfix.org,ds.zfix.org,hg.mrksr.de,tutor.mrksr.de,info2.mrksr.de,theo.mrksr.de,ds.mrksr.de
       - CERT_NAME=shared
 
   hg:
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./src/hgweb:/src:ro
       - ./uwsgi_hg.ini:/etc/uwsgi/uwsgi.ini:ro
-      - /srv/hg/hg:/repos:ro
+      - /srv/hg:/hg:ro
 
   tutor:
     image: mrksr/hgweb
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./src/hgweb:/src:ro
       - ./uwsgi_tutor.ini:/etc/uwsgi/uwsgi.ini:ro
-      - /srv/hg/tutor:/repos:ro
+      - /srv/hg:/hg:ro
 
 networks:
   web:
