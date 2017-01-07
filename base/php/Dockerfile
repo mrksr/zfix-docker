@@ -57,4 +57,4 @@ RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install -j$(nproc) ldap
 
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-    && docker-php-ext-install -j$(nproc) imap \
+    && docker-php-ext-install -j$(nproc) imap
