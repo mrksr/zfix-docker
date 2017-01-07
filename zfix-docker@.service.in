@@ -1,5 +1,5 @@
 [Unit]
-Description=zfix.org docker application service
+Description=zfix.org dockerized service '%I'
 After=docker.service
 Requires=docker.service
 
