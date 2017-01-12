@@ -112,10 +112,10 @@ storage = {
 }
 
 sql = {
-  driver = "PostgreSQL",
-  database = "postgres",
-  username = "postgres",
-  password = "postgres",
+  driver = "MySQL",
+  database = "mysql",
+  username = "mysql",
+  password = "mysql",
   host = "database"
 }
 

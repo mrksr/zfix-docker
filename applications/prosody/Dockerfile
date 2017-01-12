@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       ca-certificates \
       lua-bitop \
-      lua-dbi-postgresql \
+      lua-dbi-mysql \
       lua-ldap \
       lua-zlib \
       lua5.1-event \
@@ -30,4 +30,4 @@ COPY ./wait-for-it.sh /usr/bin/wait-for-it.sh
 
 EXPOSE 5222 5269 5347 5280 5281
 
-CMD ["wait-for-it.sh", "database:5432", "-t", "120", "--", "prosody"]
+CMD ["wait-for-it.sh", "database:3306", "-t", "120", "--", "prosody"]

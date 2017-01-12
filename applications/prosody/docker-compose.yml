@@ -23,12 +23,14 @@ services:
       - ldap
 
   database:
-    image: postgres
+    image: mariadb
     volumes:
-      - /srv/prosody/postgres:/var/lib/postgresql/data
+      - /srv/prosody/mariadb:/var/lib/mysql
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=mysql
 
 networks:
   ldap:
