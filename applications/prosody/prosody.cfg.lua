@@ -48,6 +48,7 @@ modules_enabled = {
 
   -- custom
   "mam"; -- server side message archive
+  "mam_adhoc"; -- allow configuration through adhoc commands
   -- "mam_muc"; -- ... for MUC, but load only in component
   "mam_archive"; -- Implement XEP-0136 using mam
   "carbons"; -- outgoing messages copy
@@ -97,7 +98,7 @@ ssl = {
 }
 
 c2s_require_encryption = true
-s2s_require_encryption = true
+s2s_require_encryption = false
 
 -- authentication = "internal_hashed"
 authentication = "ldap"
