@@ -1,0 +1,40 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./php_inc:/etc/nginx/php_inc:ro
+    environment:
+      - VIRTUAL_HOST=sanguine.zfix.org,www.sanguine.zfix.org,sanguine.mrksr.de,www.sanguine.zfix.org
+      - CERT_NAME=shared
+
+  php:
+    image: mrksr/php-5
+    links:
+      - database
+    volumes:
+      - /srv/sanguine/www:/srv
+
+  database:
+    image: mariadb
+    volumes:
+      - /srv/sanguine/mariadb:/var/lib/mysql
+      # - ./sanguine.sql:/docker-entrypoint-initdb.d/sanguine.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=mysql
+
+networks:
+  web:
+    external:
+      name: nginx_default
