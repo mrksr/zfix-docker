@@ -35,7 +35,7 @@
    CLOSED: [2016-12-11 Sun 23:16]
 ** DONE syncthing
    CLOSED: [2016-12-12 Mon 23:23]
-** TODO web things [6/12]
+** TODO web things [7/12]
 *** DONE default
     CLOSED: [2016-12-18 Sun 19:42]
 *** DONE mongan
@@ -55,7 +55,8 @@
 *** TODO pic?
 **** Currently: Lychee, which might be too much
 **** https://git.zx2c4.com/PhotoFloat/about/
-*** TODO sanguine?
+*** DONE sanguine?
+    CLOSED: [2017-01-15 So 00:47]
 ** Sharelatex?
 ** Online Jabber client?
 *** Kaiwa? http://getkaiwa.com/
@@ -76,16 +77,15 @@
    CLOSED: [2017-01-06 Fri 13:42]
 ** DONE ldap auth (hopefully) everywhere
    CLOSED: [2017-01-06 Fri 13:42]
-* Non-Docker [1/4]
+* Non-Docker [2/4]
 ** DONE ssh
    CLOSED: [2017-01-06 Fri 13:41]
 *** hg
 *** git
-** TODO sslh
-*** http://www.rutschle.net/tech/sslh.shtml
 ** TODO letsencrypt
 *** https://github.com/hlandau/acme
-** TODO backup
+** DONE backup
+   CLOSED: [2017-01-14 Sa 23:41]
 *** docker ps --filter ancestor=postgres --format {{.ID}}
 *** docker exec gitea_database_1 pg_dumpall -U gitea
 * Resources
