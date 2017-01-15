@@ -27,7 +27,6 @@ services:
     image: mariadb
     volumes:
       - /srv/hassprophet/mariadb:/var/lib/mysql
-      - ./hassprophet.sql:/docker-entrypoint-initdb.d/hassprophet.sql:ro
     environment:
       - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
       - MYSQL_USER=mysql
