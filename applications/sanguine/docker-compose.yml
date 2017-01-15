@@ -27,7 +27,6 @@ services:
     image: mariadb
     volumes:
       - /srv/sanguine/mariadb:/var/lib/mysql
-      # - ./sanguine.sql:/docker-entrypoint-initdb.d/sanguine.sql
     environment:
       - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
       - MYSQL_USER=mysql
