@@ -32,6 +32,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 RUN groupadd -g 5000 vmail && \
     useradd -g vmail -u 5000 -d /srv/vmail -M -s /usr/sbin/nologin vmail
 
+RUN rm /etc/cron.weekly/fstrim
+
 VOLUME /vmail
 
 EXPOSE 25 110 143 465 587 993 995 4190
