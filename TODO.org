@@ -35,7 +35,7 @@
    CLOSED: [2016-12-11 Sun 23:16]
 ** DONE syncthing
    CLOSED: [2016-12-12 Mon 23:23]
-** TODO web things [7/12]
+** TODO web things [10/12]
 *** DONE default
     CLOSED: [2016-12-18 Sun 19:42]
 *** DONE mongan
@@ -48,9 +48,12 @@
     CLOSED: [2016-12-05 Mon 20:39]
 *** DONE markus
     CLOSED: [2016-12-12 Mon 23:38]
-*** TODO master
-*** TODO hassprophet
-*** TODO wawot
+*** DONE master
+    CLOSED: [2017-01-15 Sun 16:44]
+*** DONE hassprophet
+    CLOSED: [2017-01-15 Sun 16:44]
+*** DONE wawot
+    CLOSED: [2017-01-15 Sun 16:44]
 *** TODO uniwiki
 *** TODO pic?
 **** Currently: Lychee, which might be too much
@@ -68,11 +71,12 @@
 *** Mayan: https://mayan.readthedocs.io/en/latest/
 ** Money
 *** https://ihatemoney.org/
-* Deployment [3/5]
+* Deployment [4/5]
 ** DONE lib folders
    CLOSED: [2017-01-06 Fri 13:41]
 ** TODO uids and gids
-** TODO database migrations
+** DONE database migrations
+   CLOSED: [2017-01-15 Sun 16:44]
 ** DONE normalize database usernames
    CLOSED: [2017-01-06 Fri 13:42]
 ** DONE ldap auth (hopefully) everywhere
