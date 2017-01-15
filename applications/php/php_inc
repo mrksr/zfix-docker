@@ -26,7 +26,11 @@ location ~* \.php$ {
     fastcgi_param SERVER_PORT $server_port;
     fastcgi_param SERVER_NAME $server_name;
 
-    fastcgi_param HTTPS $https if_not_empty;
+    set $https_param 'on';
+    if ($http_x_forwarded_proto = 'http') {
+        set $https_param '';
+    }
+    fastcgi_param HTTPS $https_param;
 
     # PHP only, required if PHP was built with --enable-force-cgi-redirect
     fastcgi_param REDIRECT_STATUS 200;
