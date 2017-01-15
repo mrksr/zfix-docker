@@ -15,6 +15,7 @@ services:
     volumes:
       - /srv/git/gitea:/data/gitea
       - /srv/git/repos:/data/git
+      - /srv/git/ssh:/data/ssh
     environment:
       - VIRTUAL_HOST=git.zfix.org,git.mrksr.de
       - VIRTUAL_PORT=3000
