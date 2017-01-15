@@ -27,7 +27,6 @@ services:
     image: mariadb
     volumes:
       - /srv/wawot/mariadb:/var/lib/mysql
-      - ./wawot.sql:/docker-entrypoint-initdb.d/wawot.sql:ro
     environment:
       - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
       - MYSQL_USER=mysql
