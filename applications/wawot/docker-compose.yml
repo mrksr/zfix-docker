@@ -1,0 +1,40 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./php_inc:/etc/nginx/php_inc:ro
+    environment:
+      - VIRTUAL_HOST=whatawasteoftalent.com,www.whatawasteoftalent.com,wawot.zfix.org,www.wawot.zfix.org,wawot.mrksr.de,www.wawot.zfix.org
+      - CERT_NAME=shared
+
+  php:
+    image: mrksr/php-5
+    links:
+      - database
+    volumes:
+      - /srv/wawot/www:/srv
+
+  database:
+    image: mariadb
+    volumes:
+      - /srv/wawot/mariadb:/var/lib/mysql
+      - ./wawot.sql:/docker-entrypoint-initdb.d/wawot.sql:ro
+    environment:
+      - MYSQL_ROOT_PASSWORD=stellarlyunbreakablekey
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=mysql
+
+networks:
+  web:
+    external:
+      name: nginx_default
