@@ -1,0 +1,46 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - movim
+    volumes_from:
+      - movim
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./php_inc:/etc/nginx/php_inc:ro
+    environment:
+      - VIRTUAL_HOST=chat.zfix.org,chat.mrksr.de
+      - CERT_NAME=shared
+
+  movim:
+    image: mrksr/movim
+    build: .
+    links:
+      - database
+    volumes:
+      - movim_dist:/srv
+      - /srv/movim/log:/srv/log
+      - /srv/movim/users:/srv/users
+      - /srv/movim/cache:/srv/cache
+      - ./db.inc.php:/srv/config/db.inc.php:ro
+      - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
+
+  database:
+    image: postgres
+    volumes:
+      - /srv/movim/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  movim_dist: {}
+
+networks:
+  web:
+    external:
+      name: nginx_default
