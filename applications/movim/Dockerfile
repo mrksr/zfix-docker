@@ -13,7 +13,7 @@ RUN bash -c "shopt -s dotglob; rm -rf /srv/*" \
     && cd /srv \
     && curl -sS https://getcomposer.org/installer | php \
     && php composer.phar install \
-    && php mud.php db --set \
+    # && php mud.php db --set \
     && chown www-data:www-data -R /srv
 
 EXPOSE 8000
