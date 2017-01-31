@@ -223,7 +223,13 @@ class LDAPAuthHandler(AuthHandler):
             self.log_message('Auth OK for user "%s"' % (ctx['user']))
 
             # Successfully authenticated user
+            ldap_uid = ldap_obj.search_s(ldap_dn,
+                                         ldap.SCOPE_SUBTREE,
+                                         '(objectClass=posixAccount)',
+                                         ['uid'])[0][1]['uid'][0]
             self.send_response(200)
+            self.send_header('X-Ldap-AuthDN', ldap_dn)
+            self.send_header('X-Ldap-AuthUID', ldap_uid)
             self.end_headers()
 
         except:

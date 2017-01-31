@@ -81,7 +81,7 @@ type = None
 
 # Rights backend
 # Value: None | authenticated | owner_only | owner_write | from_file
-type = owner_only
+type = None
 
 # File for rights management from_file
 #file = ~/.config/radicale/rights
