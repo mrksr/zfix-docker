@@ -17,7 +17,7 @@ services:
       - nginx
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx-proxy/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
+      - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
     environment:
       - DEFAULT_HOST=zfix.org
       - CERT_NAME=shared
