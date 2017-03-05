@@ -161,7 +161,14 @@ server {
 	listen [::]:80 {{ $default_server }};
 	{{ end }}
 	access_log /var/log/nginx/access.log vhost;
-	return 301 https://$host$request_uri;
+
+	location / {
+		return 301 https://$host$request_uri;
+	}
+
+	location /.well-known/acme-challenge/ {
+		alias /acme-challenge/;
+	}
 }
 {{ end }}
 
@@ -215,6 +222,10 @@ server {
                 include /etc/nginx/vhost.d/default_location;
                 {{ end }}
 	}
+
+	location /.well-known/acme-challenge/ {
+		alias /acme-challenge/;
+	}
 }
 
 {{ end }}
@@ -251,6 +262,10 @@ server {
                 {{ else if (exists "/etc/nginx/vhost.d/default_location") }}
                 include /etc/nginx/vhost.d/default_location;
                 {{ end }}
+	}
+
+	location /.well-known/acme-challenge/ {
+		alias /acme-challenge/;
 	}
 }
 

@@ -9,6 +9,7 @@ services:
     volumes:
       - ./nginx.conf.d:/etc/nginx/conf.d
       - /srv/letsencrypt:/etc/nginx/certs:ro
+      - /srv/acme/acme-challenge:/acme-challenge:ro
 
   dockergen:
     image: jwilder/docker-gen
