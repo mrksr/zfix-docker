@@ -25,6 +25,8 @@ services:
 
       # programs
       - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
+      - ./rsyslog.conf:/etc/rsyslog.conf:ro
+      - ./rsyslog.d/00-stdout.conf:/etc/rsyslog.d/00-stdout.conf:ro
 
       - ./dovecot:/etc/dovecot:ro
 
