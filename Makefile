@@ -21,5 +21,5 @@ base-uwsgi:
 	docker build $(DOCKER_ARGS) --tag mrksr/uwsgi base/uwsgi
 	docker build $(DOCKER_ARGS) --tag mrksr/uwsgi-python2 --file base/uwsgi/Dockerfile.python2 base/uwsgi
 
-zfix-docker@.service:
+zfix-docker@.service: zfix-docker@.service.in
 	sed -e "s!{{REPO_PATH}}!$(MAKEFILE_DIR)!g" zfix-docker@.service.in > zfix-docker@.service
