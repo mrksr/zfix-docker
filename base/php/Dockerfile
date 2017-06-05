@@ -27,6 +27,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) curl \
     && docker-php-ext-install -j$(nproc) ftp \
@@ -39,9 +40,11 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install -j$(nproc) mcrypt \
     && docker-php-ext-install -j$(nproc) mysqli \
     && docker-php-ext-install -j$(nproc) opcache \
+    && docker-php-ext-install -j$(nproc) pcntl \
     && docker-php-ext-install -j$(nproc) pdo \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
+    && docker-php-ext-install -j$(nproc) pgsql \
     && docker-php-ext-install -j$(nproc) posix \
     && docker-php-ext-install -j$(nproc) pspell \
     && docker-php-ext-install -j$(nproc) soap \
