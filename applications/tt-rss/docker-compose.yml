@@ -17,7 +17,8 @@ services:
       - CERT_NAME=shared
 
   php:
-    image: mrksr/php
+    image: mrksr/tt-rss
+    build: .
     networks:
       - default
       - ldap
@@ -26,14 +27,23 @@ services:
     external_links:
       - ldap
     volumes:
-      - /srv/tt-rss/tt-rss:/srv
+      - ttrss_dist:/srv
+      - ./config.php:/srv/config.php:ro
+      - /srv/tt-rss/cache:/srv/cache
+      - /srv/tt-rss/feed-icons:/srv/feed-icons
+      - /srv/tt-rss/lock:/srv/lock
 
   daemon:
-    image: mrksr/php
+    image: mrksr/tt-rss
+    build: .
     links:
       - database
     volumes:
-      - /srv/tt-rss/tt-rss:/srv
+      - ttrss_dist:/srv
+      - ./config.php:/srv/config.php:ro
+      - /srv/tt-rss/cache:/srv/cache
+      - /srv/tt-rss/feed-icons:/srv/feed-icons
+      - /srv/tt-rss/lock:/srv/lock
     command:
       - /srv/update_daemon2.php
     user: www-data
@@ -45,6 +55,9 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+volumes:
+  ttrss_dist: {}
 
 networks:
   web:
