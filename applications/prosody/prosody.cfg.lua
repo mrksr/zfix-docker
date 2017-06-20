@@ -53,6 +53,7 @@ modules_enabled = {
   "mam_archive"; -- Implement XEP-0136 using mam
   "carbons"; -- outgoing messages copy
   "smacks"; -- unstable connections
+  "smacks_offline"; -- forward failed smacks-deliveries to mod_offline
   "csi"; -- Client State Indication
 };
 
@@ -86,6 +87,8 @@ cross_domain_websocket = true;
 consider_bosh_secure = false;
 cross_domain_bosh = true;
 bosh_max_inactivity = 30;
+
+smacks_hibernation_time = 120;
 
 -- Encryption
 ssl = {
