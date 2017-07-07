@@ -19,6 +19,7 @@ recipient_delimiter = +
 
 # SMTP
 smtpd_banner = $myhostname ESMTP $mail_name - Kennsch du an Mongan?
+message_size_limit = 40960000
 
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_exceptions_networks = $mynetworks
