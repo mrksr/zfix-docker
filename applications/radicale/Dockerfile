@@ -10,5 +10,5 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir \
-    radicale \
+    radicale==1.1.4 \
     python-ldap
