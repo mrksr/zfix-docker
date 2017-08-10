@@ -23,7 +23,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       openssl \
       postfix \
       postfix-ldap \
-      rmilter \
       rspamd \
       rsyslog \
       supervisor \
