@@ -1,0 +1,17 @@
+version: '2'
+services:
+  nginx:
+    image: mrksr/mrksr.de
+    build: .
+    networks:
+      - web
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    environment:
+      - VIRTUAL_HOST=mrksr.de,www.mrksr.de
+      - CERT_NAME=shared
+
+networks:
+  web:
+    external:
+      name: nginx_default
