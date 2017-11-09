@@ -27,7 +27,6 @@ services:
     external_links:
       - ldap
     volumes:
-      - ttrss_dist:/srv
       - ./config.php:/srv/config.php:ro
       - /srv/tt-rss/cache:/srv/cache
       - /srv/tt-rss/feed-icons:/srv/feed-icons
@@ -38,12 +37,8 @@ services:
     build: .
     links:
       - database
-    volumes:
-      - ttrss_dist:/srv
-      - ./config.php:/srv/config.php:ro
-      - /srv/tt-rss/cache:/srv/cache
-      - /srv/tt-rss/feed-icons:/srv/feed-icons
-      - /srv/tt-rss/lock:/srv/lock
+    volumes_from:
+      - php
     command:
       - /srv/update_daemon2.php
     user: www-data
@@ -55,9 +50,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
-volumes:
-  ttrss_dist: {}
 
 networks:
   web:

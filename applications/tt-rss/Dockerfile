@@ -14,3 +14,5 @@ RUN bash -c "shopt -s dotglob; rm -rf /srv/*" \
     && ln -s /srv/plugins.repos/FeedReader/data/tt-rss-feedreader-plugin/api_feedreader /srv/plugins.local \
     && ln -s /srv/plugins.repos/TTRSS-Auth-LDAP/plugins/auth_ldap /srv/plugins.local \
     && chown www-data:www-data -R /srv
+
+VOLUME /srv
