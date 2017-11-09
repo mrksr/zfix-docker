@@ -22,7 +22,6 @@ services:
     links:
       - database
     volumes:
-      - movim_dist:/srv
       - /srv/movim/log:/srv/log
       - /srv/movim/users:/srv/users
       - /srv/movim/cache:/srv/cache
@@ -36,9 +35,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
-volumes:
-  movim_dist: {}
 
 networks:
   web:

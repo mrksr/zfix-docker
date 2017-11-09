@@ -16,6 +16,8 @@ RUN bash -c "shopt -s dotglob; rm -rf /srv/*" \
     # && php mud.php db --set \
     && chown www-data:www-data -R /srv
 
+VOLUME /srv
+
 EXPOSE 8000
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
