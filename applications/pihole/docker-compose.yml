@@ -1,0 +1,31 @@
+version: '2'
+services:
+  pihole:
+    image: diginc/pi-hole
+    networks:
+      - default
+      - ldap
+      - web
+    ports:
+      - "53:53"
+      - "53:53/udp"
+    external_links:
+      - ldap
+    volumes:
+      - /srv/pi-hole/pihole:/etc/pihole
+      - /srv/pi-hole/dnsmasq.d:/etc/dnsmasq.d
+    environment:
+      - ServerIP=5.135.160.219
+      - ServerIPv6=2001:41d0:8:e3db::1
+      - DNS1=9.9.9.9
+      - DNS2=8.8.8.8
+      - VIRTUAL_HOST=dns.zfix.org
+      - CERT_NAME=shared
+
+networks:
+  web:
+    external:
+      name: nginx_default
+  ldap:
+    external:
+      name: ldap_default
