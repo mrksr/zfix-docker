@@ -12,6 +12,7 @@ services:
     external_links:
       - ldap
     volumes:
+      - ./hostname:/etc/hostname:ro
       - /srv/pi-hole/pihole:/etc/pihole
       - /srv/pi-hole/dnsmasq.d:/etc/dnsmasq.d
     environment:
