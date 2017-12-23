@@ -23,6 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         libtidy-dev \
         libxml2-dev \
         libzip-dev \
+        libzmq3-dev \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -62,3 +63,7 @@ RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install -j$(nproc) imap
+
+# Some special stuff
+RUN pecl install zmq-beta \
+    && docker-php-ext-enable zmq
