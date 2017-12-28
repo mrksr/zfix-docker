@@ -17,11 +17,12 @@ services:
       - CERT_NAME=shared
 
   php:
-    image: mrksr/php
+    image: mrksr/webmail
+    build: .
     links:
       - database
     volumes:
-      - /srv/webmail/webmail-lite:/srv
+      - /srv/webmail/data:/srv/data
 
   database:
     image: postgres
