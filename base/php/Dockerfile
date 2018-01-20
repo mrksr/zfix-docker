@@ -26,6 +26,21 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# For some reason we need to do this alone
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+    && docker-php-ext-install -j$(nproc) ldap
+
+RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
+    && docker-php-ext-install -j$(nproc) imap
+
+# Some special stuff
+RUN pecl channel-update pecl.php.net \
+    && pecl install zmq-beta \
+    && docker-php-ext-enable zmq \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
+
+# Main extensions
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install -j$(nproc) bcmath \
@@ -50,17 +65,4 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install -j$(nproc) sockets \
     && docker-php-ext-install -j$(nproc) tidy \
     && docker-php-ext-install -j$(nproc) xml \
-    && docker-php-ext-install -j$(nproc) zip \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick
-
-# For some reason we need to do this alone
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
-    && docker-php-ext-install -j$(nproc) ldap
-
-RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-    && docker-php-ext-install -j$(nproc) imap
-
-# Some special stuff
-RUN pecl install zmq-beta \
-    && docker-php-ext-enable zmq
+    && docker-php-ext-install -j$(nproc) zip
