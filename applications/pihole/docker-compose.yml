@@ -13,6 +13,8 @@ services:
       - ldap
     volumes:
       - ./hostname:/etc/hostname:ro
+      - ./external.conf:/etc/lighttpd/external.conf:ro
+      - ./stdauth_private:/etc/lighttpd/stdauth_private:ro
       - /srv/pi-hole/pihole:/etc/pihole
       - /srv/pi-hole/dnsmasq.d:/etc/dnsmasq.d
     environment:
@@ -22,6 +24,7 @@ services:
       - DNS2=8.8.8.8
       - VIRTUAL_HOST=dns.zfix.org
       - CERT_NAME=shared
+      - WEBPASSWORD=
 
 networks:
   web:
