@@ -1,0 +1,28 @@
+version: '2'
+services:
+  pihole:
+    # This image must be built locally for ARMv6
+    # See https://github.com/diginc/docker-pi-hole/issues/245
+    image: mrksr/pi-hole-multiarch:debian_armel
+    build:
+      context: /srv/docker-pi-hole
+      dockerfile: Dockerfile_debian_armel
+    networks:
+      - default
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./hostname:/etc/hostname:ro
+      - ./external.conf:/etc/lighttpd/external.conf:ro
+      - ./stdauth_private:/etc/lighttpd/stdauth_private:ro
+      - /srv/pi-hole/pihole:/etc/pihole
+      - /srv/pi-hole/dnsmasq.d:/etc/dnsmasq.d
+    environment:
+      - ServerIP=192.168.0.10
+      - IPv6=False
+      - DNS1=1.1.1.1
+      - DNS2=9.9.9.9
+      - WEBPASSWORD=
