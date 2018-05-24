@@ -4,3 +4,6 @@
 # Generated files
 docker-gen*
 zfix-docker@.service
+
+# Secret things
+*secret*
