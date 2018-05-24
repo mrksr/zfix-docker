@@ -2,6 +2,7 @@ version: '2'
 services:
   mail:
     image: mrksr/mail
+    container_name: mail
     build: .
     networks:
       - default
