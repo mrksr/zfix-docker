@@ -65,6 +65,15 @@ if env('USE_ANYMAIL', cast=bool, default=False):
     }
     EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
     DEFAULT_FROM_EMAIL = "Taiga <{}>".format(env('DJANGO_DEFAULT_FROM_EMAIL'))
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST = 'mail'
+    EMAIL_PORT = 25
+    EMAIL_HOST_USER = env('MAIL_USER')
+    EMAIL_HOST_PASSWORD = env('MAIL_PASSWORD')
+    DEFAULT_FROM_EMAIL = "Taiga <{}>".format(env('DJANGO_DEFAULT_FROM_EMAIL'))
 
 # Cache
 # CACHES = {

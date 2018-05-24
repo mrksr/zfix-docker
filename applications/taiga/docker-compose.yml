@@ -60,6 +60,11 @@ services:
     entrypoint: ['/scripts/entrypoint.sh']
     # command: ['gunicorn', '--worker-class', 'gevent', '--workers', '10', '-b', '0.0.0.0:8000', 'taiga.wsgi']
     command: ['gunicorn', '-b', '0.0.0.0:8000', 'taiga.wsgi']
+    networks:
+      - default
+      - mail
+    external_links:
+      - mail
 
   frontend:
     build: frontend/
@@ -73,8 +78,6 @@ services:
     # Must be in lowercase, because we are using in a json file (conf.json)
     #   - TAIGA_PUBLIC_REGISTER_ENABLED=false
     #   - DEFAULT_LANGUAGE="en"
-    ports:
-      - "80:80"
     depends_on:
       # It would be better to add 'postgres' to 'depends_on' on 'backend' service
       # but 'celeryworker' extends 'backend' and we cannot extend a service
@@ -91,6 +94,11 @@ services:
     depends_on:
       - redis
       - rabbitmq
+    networks:
+      - default
+      - mail
+    external_links:
+      - mail
 
   events:
     build: events/
@@ -99,3 +107,8 @@ services:
       - TAIGA_SECRET=DJANGO_SECRET_KEY
     depends_on:
       - rabbitmq
+
+networks:
+  mail:
+    external:
+      name: mail_default
