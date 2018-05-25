@@ -3,7 +3,7 @@
 BACKUP_FOLDER=${ZFIX_DB_BACKUP_FOLDER:-/srv/backup}
 
 # Postgres
-for container_id in $( docker ps --filter ancestor=postgres --format {{.ID}} ); do
+for container_id in $( docker ps --filter ancestor=postgres --filter ancestor=postgres:alpine --format {{.ID}} ); do
     container_name=$(docker ps --filter ID=$container_id --format {{.Names}})
     docker exec $container_id bash -c "\
         PGPASSWORD=postgres pg_dumpall -U postgres \
