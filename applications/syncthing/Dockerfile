@@ -20,5 +20,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8384 22000 21027/UDP
+USER 1042:1042
 
 CMD ["syncthing", "-gui-address", "0.0.0.0:8384", "-home", "/syncthing/config"]
