@@ -1,6 +1,6 @@
 FROM python:3.6-alpine3.6 as BUILDER
 
-ENV TAIGA_VERSION 3.3.3
+ENV TAIGA_VERSION 3.3.5
 
 RUN apk update \
     && apk add --virtual build-dependencies \
@@ -19,14 +19,8 @@ ADD https://github.com/taigaio/taiga-back/archive/${TAIGA_VERSION}.tar.gz ./
 RUN tar -xzf ${TAIGA_VERSION}.tar.gz -C ./ taiga-back-${TAIGA_VERSION} --strip-components=1
 RUN rm ${TAIGA_VERSION}.tar.gz
 
-# local.py and checkdb.py and celery
-# using gevent to run taiga gunicorn (workers)
-# using gevent on celery (workers)
-RUN echo "django-environ==0.4.0" >> requirements.txt
-RUN echo "gevent==1.1.2" >> requirements.txt
-RUN echo "django-anymail==0.5" >> requirements.txt
-# NOTE(mrksr): Force kombu stable version
-RUN echo "kombu==4.1" >> requirements.txt
+# We use django-environ to make things configurable via envvars
+RUN echo "django-environ==0.4.4" >> requirements.txt
 
 RUN pip wheel --wheel-dir=./taiga_python_dependencies -r requirements.txt
 
@@ -35,7 +29,7 @@ RUN pip wheel --wheel-dir=./taiga_python_dependencies -r requirements.txt
 FROM python:3.6-alpine3.6
 
 LABEL maintainer="douglasmirandasilva@gmail.com"
-LABEL taiga_version="tag:3.3.3"
+LABEL taiga_version="tag:3.3.5"
 
 WORKDIR /taiga_backend
 

@@ -17,10 +17,10 @@ services:
       - POSTGRES_PASSWORD=123
 
   redis:
-    image: redis:4.0-alpine
+    image: redis:alpine
 
   rabbitmq:
-    image: rabbitmq:3.6-alpine
+    image: rabbitmq:alpine
     hostname: taiga_rabbitmq
     environment:
       # https://www.rabbitmq.com/clustering.html#erlang-cookie
@@ -59,7 +59,7 @@ services:
     user: taiga
     entrypoint: ['/scripts/entrypoint.sh']
     # command: ['gunicorn', '--worker-class', 'gevent', '--workers', '10', '-b', '0.0.0.0:8000', 'taiga.wsgi']
-    command: ['gunicorn', '-b', '0.0.0.0:8000', 'taiga.wsgi']
+    command: ['gunicorn', '-b', '0.0.0.0:8000', 'taiga.wsgi' ]
     networks:
       - default
       - mail
@@ -90,7 +90,7 @@ services:
     extends: backend
     entrypoint: []
     # command: ['celery', '-A', 'taiga', 'worker', '-c', '4', '--loglevel', 'info']
-    command: ['celery', '-A', 'taiga', 'worker', '-P', 'gevent', '-c', '4', '--loglevel', 'info']
+    command: ['celery', '-A', 'taiga', 'worker', '-P', 'gevent', '-c', '4', '--loglevel', 'info' ]
     depends_on:
       - redis
       - rabbitmq

@@ -22,10 +22,9 @@ services:
       - production.env
       - production_secret.env
     environment:
-      - USE_ANYMAIL=false
-      - TAIGA_DEBUG=true
-      - DJANGO_DEBUG=true
-    command: ['gunicorn', '--worker-class', 'gevent', '--workers', '4', '-b', '0.0.0.0:8000', 'taiga.wsgi']
+      - TAIGA_DEBUG=false
+      - DJANGO_DEBUG=false
+    command: ['gunicorn', '--workers', '4', '-b', '0.0.0.0:8000', 'taiga.wsgi' ]
 
   frontend:
     restart: always
@@ -45,11 +44,9 @@ services:
     env_file:
       - production.env
       - production_secret.env
-    environment:
-      - TAIGA_DEBUG=true
-      - DJANGO_DEBUG=true
+    environment: []
     # Maybe you want to increase the workers, see <celeryworker> in docker-compose.yml
-    # command: ['celery', '-A', 'taiga', 'worker', '-P', 'gevent', '-c', '4', '--loglevel', 'info']
+    command: ['celery', '-A', 'taiga', 'worker', '-c', '4', '--loglevel', 'info' ]
 
   events:
     restart: always
