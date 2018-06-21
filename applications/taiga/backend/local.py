@@ -76,3 +76,55 @@ DEFAULT_FROM_EMAIL = "Taiga <{}>".format(env('DJANGO_DEFAULT_FROM_EMAIL'))
 #         "LOCATION": "unique-snowflake"
 #     }
 # }
+
+# LDAP
+INSTALLED_APPS += ["taiga_contrib_ldap_auth_ext"]
+
+LDAP_SERVER = 'ldap://ldap'
+LDAP_PORT = 389
+
+# Flag to enable LDAP with STARTTLS before bind
+LDAP_START_TLS = False
+
+# Support of alternative LDAP ciphersuites
+#from ldap3 import Tls
+#import ssl
+
+#LDAP_TLS_CERTS = Tls(validate=ssl.CERT_NONE, version=ssl.PROTOCOL_TLSv1, ciphers='RSA+3DES')
+
+# Full DN of the service account use to connect to LDAP server and search for login user's account entry
+# If LDAP_BIND_DN is not specified, or is blank, then an anonymous bind is attempated
+LDAP_BIND_DN = ''
+LDAP_BIND_PASSWORD = ''
+
+# Starting point within LDAP structure to search for login user
+LDAP_SEARCH_BASE = 'ou=users,dc=zfix,dc=org'
+
+# Additional search criteria to the filter (will be ANDed)
+#LDAP_SEARCH_FILTER_ADDITIONAL = '(mail=*)'
+
+# Names of attributes to get username, e-mail and full name values from
+# These fields need to have a value in LDAP
+LDAP_USERNAME_ATTRIBUTE = 'uid'
+LDAP_EMAIL_ATTRIBUTE = 'mail'
+LDAP_FULL_NAME_ATTRIBUTE = 'givenName'
+
+# Fallback on normal authentication method if this LDAP auth fails. Uncomment to enable.
+# LDAP_FALLBACK = "normal"
+
+# Function to map LDAP username to local DB user unique identifier.
+# Upon successful LDAP bind, will override returned username attribute
+# value. May result in unexpected failures if changed after the database
+# has been populated.
+#
+def _ldap_slugify(uid: str) -> str:
+    # example: force lower-case
+    uid = uid.lower()
+    return uid
+
+# To enable the function above, uncomment the line below to store the function in the variable
+LDAP_MAP_USERNAME_TO_UID = _ldap_slugify
+
+# Similarly, you can apply filters to the email and name by defining functions and specifying them here in the same way
+#LDAP_MAP_EMAIL = _ldap_map_email
+#LDAP_MAP_NAME = _ldap_map_name

@@ -45,7 +45,7 @@ services:
       - DJANGO_DB_PASSWORD=123
       # - DJANGO_ALLOWED_HOSTS=example.com,example2.com
       # Must be in lowercase, because we are using in a json file <frontend> (conf.json)
-      # - TAIGA_PUBLIC_REGISTER_ENABLED=false
+      - TAIGA_PUBLIC_REGISTER_ENABLED=false
       # - TAIGA_SSL=True
       # - TAIGA_HOSTNAME=example.com
       # - TAIGA_SKIP_DB_CHECK=True
@@ -63,20 +63,22 @@ services:
     networks:
       - default
       - mail
+      - ldap
     external_links:
       - mail
+      - ldap
 
   frontend:
     build: frontend/
     volumes_from:
       - backend:ro
-    # environment:
+    environment:
     # Must be in lowercase, because we are using in a json file (conf.json)
     #   - TAIGA_DEBUG=true
     #   - TAIGA_API_URL="http://example.com/api/v1/"
     #   - TAIGA_EVENTS_URL="ws://example.com/events"
     # Must be in lowercase, because we are using in a json file (conf.json)
-    #   - TAIGA_PUBLIC_REGISTER_ENABLED=false
+      - TAIGA_PUBLIC_REGISTER_ENABLED=false
     #   - DEFAULT_LANGUAGE="en"
     depends_on:
       # It would be better to add 'postgres' to 'depends_on' on 'backend' service
@@ -112,3 +114,6 @@ networks:
   mail:
     external:
       name: mail_default
+  ldap:
+    external:
+      name: ldap_default

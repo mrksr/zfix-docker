@@ -24,7 +24,8 @@ if [ ! -f /taiga_frontend/conf.json ]; then
     "privacyPolicyUrl": null,
     "termsOfServiceUrl": null,
     "maxUploadFileSize": null,
-    "contribPlugins": []
+    "contribPlugins": [],
+    "loginFormType": "ldap"
 }
 EOF
 fi

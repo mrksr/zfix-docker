@@ -21,6 +21,7 @@ RUN rm ${TAIGA_VERSION}.tar.gz
 
 # We use django-environ to make things configurable via envvars
 RUN echo "django-environ==0.4.4" >> requirements.txt
+RUN echo "taiga-contrib-ldap-auth-ext" >> requirements.txt
 
 RUN pip wheel --wheel-dir=./taiga_python_dependencies -r requirements.txt
 
