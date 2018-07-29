@@ -25,7 +25,7 @@ services:
       - CERT_NAME=shared
 
   php:
-    image: mrksr/php
+    image: mrksr/php-5
     links:
       - ldap
     volumes:
