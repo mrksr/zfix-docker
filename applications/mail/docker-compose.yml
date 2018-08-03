@@ -7,6 +7,7 @@ services:
     networks:
       - default
       - ldap
+      - web
     ports:
       - "25:25"
       - "110:110"
@@ -16,6 +17,7 @@ services:
       - "993:993"
       - "995:995"
       - "4190:4190"
+      - "11334"
     volumes:
       # state
       - /srv/mail/mail:/vmail
@@ -38,12 +40,17 @@ services:
       - ./postfix/ldap:/etc/postfix/ldap:ro
       - ./postfix/dhparam2048.pem:/etc/postfix/dhparam2048.pem:ro
 
+      - /srv/mail/rspamd:/var/lib/rspamd
       - ./rspamd/local.d:/etc/rspamd/local.d:ro
       - ./rspamd/override.d:/etc/rspamd/override.d:ro
     links:
       - redis
     external_links:
       - ldap
+    environment:
+      - VIRTUAL_HOST=rspamd.zfix.org,rspamd.mrksr.de
+      - VIRTUAL_PORT=11334
+      - CERT_NAME=shared
 
   redis:
     image: redis
@@ -51,6 +58,9 @@ services:
       - /srv/mail/redis:/data
 
 networks:
+  web:
+    external:
+      name: nginx_default
   ldap:
     external:
       name: ldap_default

@@ -88,7 +88,7 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # Virtual Domains
 mydestination =
 local_recipient_maps =
-local_transport	= virtual
+local_transport = virtual
 
 relay_domains = lists.zfix.org
 relay_recipient_maps =
@@ -109,5 +109,4 @@ default_destination_recipient_limit = 1
 # Milters
 smtpd_milters = unix:private/milter.sock
 milter_protocol = 6
-milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}
 milter_default_action = accept
