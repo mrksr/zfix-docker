@@ -6,8 +6,8 @@ Requires=docker.service
 [Service]
 WorkingDirectory={{REPO_PATH}}/applications/%i/
 # NOTE(mrksr): See https://github.com/docker/compose/issues/3927
-Environment="DOCKER_CLIENT_TIMEOUT=120"
-Environment="COMPOSE_HTTP_TIMEOUT=120"
+Environment="DOCKER_CLIENT_TIMEOUT=300"
+Environment="COMPOSE_HTTP_TIMEOUT=300"
 # ExecStartPre=-/usr/local/bin/docker-compose pull --ignore-pull-failures
 # ExecStartPre=-/usr/local/bin/docker-compose build
 ExecStart=/usr/local/bin/docker-compose up
