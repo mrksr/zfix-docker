@@ -1,6 +1,3 @@
 #!/usr/bin/env python
 
-import radicale
-
-radicale.log.start()
-application = radicale.Application()
+from radicale import application

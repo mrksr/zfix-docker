@@ -32,7 +32,7 @@ services:
       - ./radicale.wsgi:/src/radicale.wsgi:ro
       - ./radicale:/etc/radicale:ro
       - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini:ro
-      - /srv/webdav:/radicale
+      - /srv/webdav:/var/lib/radicale/collections
 
 networks:
   web:

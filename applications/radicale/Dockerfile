@@ -1,4 +1,4 @@
-FROM mrksr/uwsgi-python2
+FROM mrksr/uwsgi
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
@@ -6,9 +6,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       libldap2-dev \
       libsasl2-dev \
       libssl-dev \
-      python-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir \
-    radicale==1.1.4 \
+RUN pip3 install --no-cache-dir \
+    radicale \
     python-ldap

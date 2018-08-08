@@ -227,6 +227,7 @@ class LDAPAuthHandler(AuthHandler):
                                          ldap.SCOPE_SUBTREE,
                                          '(objectClass=posixAccount)',
                                          ['uid'])[0][1]['uid'][0]
+            self.log_message('Found uid: {}'.format(ldap_uid))
             self.send_response(200)
             self.send_header('X-Ldap-AuthDN', ldap_dn)
             self.send_header('X-Ldap-AuthUID', ldap_uid)
