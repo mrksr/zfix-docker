@@ -29,10 +29,10 @@ services:
     image: mrksr/radicale
     build: .
     volumes:
-      - ./radicale.wsgi:/src/radicale.wsgi:ro
       - ./radicale:/etc/radicale:ro
       - ./uwsgi.ini:/etc/uwsgi/uwsgi.ini:ro
       - /srv/webdav:/var/lib/radicale/collections
+      - ./gitconfig:/etc/gitconfig:ro
 
 networks:
   web:
