@@ -1,0 +1,75 @@
+version: '2.1'
+
+volumes:
+    broker: {}
+    app: {}
+    postgres_data: {}
+    results: {}
+
+services:
+  broker:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: mayan
+      RABBITMQ_DEFAULT_PASS: mayan
+      RABBITMQ_DEFAULT_VHOST: mayan
+    volumes:
+      - broker:/var/lib/rabbitmq
+
+  results:
+    image: redis
+    volumes:
+      - results:/data
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DB: mayan
+      POSTGRES_PASSWORD: mayan
+      POSTGRES_USER: mayan
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mayan-edms:
+    image: mrksr/mayanedms
+    build: .
+    networks:
+      - default
+      - web
+      - ldap
+    external_links:
+      - ldap
+    environment:
+      MAYAN_BROKER_URL: amqp://mayan:mayan@broker:5672/mayan
+      MAYAN_CELERY_RESULT_BACKEND: redis://results:6379/0
+      MAYAN_DATABASE_ENGINE: django.db.backends.postgresql
+      MAYAN_DATABASE_HOST: database
+      MAYAN_DATABASE_NAME: mayan
+      MAYAN_DATABASE_PASSWORD: mayan
+      MAYAN_DATABASE_USER: mayan
+      MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
+      DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'),('eng', 'English'), ('swe', 'Swedish'))
+      DOCUMENTS_LANGUAGE: 'eng'
+      VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
+      CERT_NAME: shared
+    entrypoint:
+      # NOTE(mrksr): Mayan wants to chown the settings files. To keep them
+      # read-only on the outside we copy them to the volume and let Mayan do
+      # its thing.
+      - sh
+      - -c
+      - 'cp /mrksr/* /var/lib/mayan/mayan_settings; exec entrypoint.sh mayan'
+    expose:
+      - "8000"
+    volumes:
+      - app:/var/lib/mayan
+      - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
+      - /srv/syncthing/data/mayan/watch:/syncthing/watch
+
+networks:
+  web:
+    external:
+      name: nginx_default
+  ldap:
+    external:
+      name: ldap_default
