@@ -64,7 +64,7 @@ services:
     volumes:
       - app:/var/lib/mayan
       - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
-      - /srv/syncthing/data/mayan/watch:/syncthing/watch
+      - /srv/syncthing/data/mayan:/syncthing
 
 networks:
   web:
