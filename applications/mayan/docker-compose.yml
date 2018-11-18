@@ -48,8 +48,8 @@ services:
       MAYAN_DATABASE_PASSWORD: mayan
       MAYAN_DATABASE_USER: mayan
       MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
-      DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'),('eng', 'English'), ('swe', 'Swedish'))
-      DOCUMENTS_LANGUAGE: 'eng'
+      MAYAN_DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'),('eng', 'English'), ('swe', 'Swedish'))
+      MAYAN_DOCUMENTS_LANGUAGE: 'deu'
       VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
       CERT_NAME: shared
     entrypoint:
