@@ -8,7 +8,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     environment:
-      - VIRTUAL_HOST=mrksr.de,www.mrksr.de
+      - VIRTUAL_HOST=mrksr.de,www.mrksr.de,papers.mrksr.de,papers.zfix.org
       - CERT_NAME=shared
 
 networks:
