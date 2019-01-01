@@ -1,4 +1,7 @@
-FROM php:fpm
+# FIXME(mrksr): movim depends on zmq which is not compatible to php >= 7.3.
+# Pinned PHP version for now, after an update to movim the dependency on zmq
+# can be removed.
+FROM php:7.2-fpm
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
