@@ -74,7 +74,7 @@ disco_items = {
 -- Logging
 default_archive_policy = false;
 archive_expires_after = "never";
-max_archive_query_results = 500;
+max_archive_query_results = 200;
 
 muc_log_by_default = true;
 muc_log_all_rooms = false;
@@ -111,6 +111,7 @@ allow_registration = false;
 
 default_storage = "sql"
 storage = {
+  archive = "sql";
   archive2 = "sql";
   muc_log = "sql"
 }
