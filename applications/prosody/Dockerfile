@@ -1,8 +1,9 @@
-FROM mrksr/base
+FROM ubuntu:16.04
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      gnupg \
       lsb-release \
       wget \
     && wget https://prosody.im/files/prosody-debian-packages.key -O- \
