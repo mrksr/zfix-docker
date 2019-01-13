@@ -1,11 +1,9 @@
-FROM mrksr/base
+FROM alpine:latest
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    mumble-server \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --update murmur icu-libs \
+    && rm -rf /var/cache/apk/*
 
-EXPOSE 64738
+EXPOSE 64738/udp 64738/tcp
 
-CMD ["murmurd", "-ini", "/etc/mumble-server.ini", "-fg"]
+CMD ["/usr/bin/murmurd", "-ini", "/etc/mumble-server.ini", "-fg"]
