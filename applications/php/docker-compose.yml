@@ -13,7 +13,7 @@ services:
       - ./nginx.conf.d:/etc/nginx/conf.d:ro
       - ./php_inc:/etc/nginx/php_inc:ro
     environment:
-      - VIRTUAL_HOST=zfix.org,t.zfix.org,mongan.zfix.org,openid.zfix.org,openid.mrksr.de
+      - VIRTUAL_HOST=zfix.org,www.zfix.org,t.zfix.org,mongan.zfix.org,openid.zfix.org,openid.mrksr.de,scheissn.net,www.scheissn.net
       - CERT_NAME=shared
 
   php:
