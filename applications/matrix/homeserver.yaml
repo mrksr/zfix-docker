@@ -1,0 +1,160 @@
+## Server ##
+
+server_name: "zfix.org"
+pid_file: /homeserver.pid
+public_baseurl: https://zfix.org/
+
+soft_file_limit: 0
+
+use_presence: true
+
+listeners:
+  - port: 8008
+    tls: false
+    bind_addresses: ['::']
+    type: http
+    x_forwarded: true
+
+    resources:
+      - names: [client]
+        compress: true
+      - names: [federation]
+        compress: false
+
+admin_contact: 'mailto:root@zfix.org'
+
+# Database configuration
+database:
+  name: "psycopg2"
+  args:
+    user: postgres
+    password: postgres
+    database: postgres
+    host: db
+    port: 5432
+
+# Number of events to cache in memory.
+event_cache_size: "10K"
+
+# A yaml python logging config file
+log_config: "/config/log_config.yaml"
+
+
+## Ratelimiting ##
+rc_messages_per_second: 0.2
+rc_message_burst_count: 10.0
+federation_rc_window_size: 1000
+federation_rc_sleep_limit: 10
+federation_rc_sleep_delay: 500
+federation_rc_reject_limit: 50
+federation_rc_concurrent: 3
+
+media_store_path: "/data/media"
+uploads_path: "/data/uploads"
+max_upload_size: "50M"
+
+max_image_pixels: "32M"
+dynamic_thumbnails: false
+
+thumbnail_sizes:
+- width: 32
+  height: 32
+  method: crop
+- width: 96
+  height: 96
+  method: crop
+- width: 320
+  height: 240
+  method: scale
+- width: 640
+  height: 480
+  method: scale
+- width: 800
+  height: 600
+  method: scale
+
+url_preview_enabled: False
+max_spider_size: "10M"
+
+
+## Turn ##
+# The public URIs of the TURN server to give to clients
+#turn_uris: []
+#turn_shared_secret: "YOUR_SHARED_SECRET"
+#turn_username: "TURNSERVER_USERNAME"
+#turn_password: "TURNSERVER_PASSWORD"
+turn_user_lifetime: "1h"
+turn_allow_guests: True
+
+
+## Registration ##
+enable_registration: False
+registration_shared_secret: "{{ SYNAPSE_REGISTRATION_SHARED_SECRET }}"
+bcrypt_rounds: 12
+allow_guest_access: False
+
+trusted_third_party_id_servers:
+    - matrix.org
+    - vector.im
+
+
+## Metrics ###
+enable_metrics: False
+report_stats: false
+
+
+## API Configuration ##
+# A list of event types that will be included in the room_invite_state
+room_invite_state_types:
+    - "m.room.join_rules"
+    - "m.room.canonical_alias"
+    - "m.room.avatar"
+    - "m.room.encryption"
+    - "m.room.name"
+
+app_service_config_files: []
+track_appservice_user_ips: False
+
+
+macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
+expire_access_token: False
+
+## Signing Keys ##
+signing_key_path: "/data/zfix.org.signing.key"
+old_signing_keys: {}
+key_refresh_interval: "1d"
+
+perspectives:
+  servers:
+    "matrix.org":
+      verify_keys:
+        "ed25519:auto":
+          key: "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw"
+
+password_config:
+   enabled: true
+   # Uncomment and change to a secret random string for extra security.
+   # DO NOT CHANGE THIS AFTER INITIAL SETUP!
+   #pepper: ""
+
+password_providers:
+  - module: "ldap_auth_provider.LdapAuthProvider"
+    config:
+      enabled: true
+      uri: "ldap://ldap:389"
+      start_tls: false
+      base: "ou=users,dc=zfix,dc=org"
+      attributes:
+         uid: "cn"
+         mail: "email"
+         name: "givenName"
+      # bind_dn:
+      # bind_password:
+      filter: "(objectClass=posixAccount)"
+
+enable_group_creation: true
+
+alias_creation_rules:
+    - user_id: "*"
+      alias: "*"
+      action: allow

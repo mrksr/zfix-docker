@@ -1,52 +1,58 @@
-# This compose file is compatible with Compose itself, it might need some
-# adjustments to run properly with stack.
-
 version: '3'
 
-services:
+volumes:
+  postgres_data: {}
+  synapse_data: {}
 
+services:
   synapse:
-    build:
-        context: ../..
-        dockerfile: docker/Dockerfile
     image: docker.io/matrixdotorg/synapse:latest
-    # Since synapse does not retry to connect to the database, restart upon
-    # failure
+    networks:
+      - default
+      - ldap
+    # Since synapse does not retry to connect to the database, restart
+    # upon failure
     restart: unless-stopped
-    # See the readme for a full documentation of the environment settings
     environment:
-      - SYNAPSE_SERVER_NAME=my.matrix.host
-      - SYNAPSE_REPORT_STATS=no
-      - SYNAPSE_ENABLE_REGISTRATION=yes
-      - SYNAPSE_LOG_LEVEL=INFO
-      - POSTGRES_PASSWORD=changeme
+      - SYNAPSE_CONFIG_PATH=/config/homeserver.yaml
     volumes:
-      # You may either store all the files in a local folder
-      - ./files:/data
-      # .. or you may split this between different storage points
-      # - ./files:/data
-      # - /path/to/ssd:/data/uploads
-      # - /path/to/large_hdd:/data/media
+      - synapse_data:/data
+      - ./homeserver.yaml:/config/homeserver.yaml:ro
+      - ./log_config.yaml:/config/log_config.yaml:ro
+      - /srv/letsencrypt:/letsencrypt:ro
     depends_on:
       - db
-    # In order to expose Synapse, remove one of the following, you might for
-    # instance expose the TLS port directly:
     ports:
       - 8448:8448/tcp
-    # ... or use a reverse proxy, here is an example for traefik:
-    labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:my.matrix.Host
-      - traefik.port=8008
+      - 8008:8008/tcp
+    external_links:
+      - ldap
+
+  nginx:
+    image: nginx
+    networks:
+      - default
+      - web
+    links:
+      - synapse
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    environment:
+      - VIRTUAL_HOST=matrix.zfix.org,matrix.mrksr.de
+      - CERT_NAME=shared
 
   db:
     image: docker.io/postgres:10-alpine
-    # Change that password, of course!
     environment:
-      - POSTGRES_USER=synapse
-      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     volumes:
-      # You may store the database tables in a local folder..
-      - ./schemas:/var/lib/postgresql/data
-      # .. or store them on some high performance storage for better results
-      # - /path/to/ssd/storage:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  web:
+    external:
+      name: nginx_default
+  ldap:
+    external:
+      name: ldap_default
