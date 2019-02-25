@@ -7,6 +7,7 @@ volumes:
 services:
   synapse:
     image: docker.io/matrixdotorg/synapse:latest
+    container_name: matrix
     networks:
       - default
       - ldap
@@ -14,17 +15,17 @@ services:
     # upon failure
     restart: unless-stopped
     environment:
-      - SYNAPSE_CONFIG_PATH=/config/homeserver.yaml
+      - UID=0
+      - SYNAPSE_CONFIG_PATH=/mrksr.config/homeserver.yaml
     volumes:
       - synapse_data:/data
-      - ./homeserver.yaml:/config/homeserver.yaml:ro
-      - ./log_config.yaml:/config/log_config.yaml:ro
+      - ./homeserver.yaml:/mrksr.config/homeserver.yaml:ro
+      - ./log_config.yaml:/mrksr.config/log_config.yaml:ro
       - /srv/letsencrypt:/letsencrypt:ro
     depends_on:
       - db
     ports:
       - 8448:8448/tcp
-      - 8008:8008/tcp
     external_links:
       - ldap
 

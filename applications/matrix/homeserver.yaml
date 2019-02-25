@@ -8,7 +8,21 @@ soft_file_limit: 0
 
 use_presence: true
 
+tls_certificate_path: "/letsencrypt/shared.crt"
+tls_private_key_path: "/letsencrypt/shared.key"
+tls_dh_params_path: "/letsencrypt/shared.dhparam.pem"
+
 listeners:
+  - port: 8448
+    tls: true
+    bind_addresses: ['::']
+    type: http
+    x_forwarded: true
+
+    resources:
+      - names: [federation]
+        compress: false
+
   - port: 8008
     tls: false
     bind_addresses: ['::']
@@ -18,8 +32,6 @@ listeners:
     resources:
       - names: [client]
         compress: true
-      - names: [federation]
-        compress: false
 
 admin_contact: 'mailto:root@zfix.org'
 
@@ -37,7 +49,7 @@ database:
 event_cache_size: "10K"
 
 # A yaml python logging config file
-log_config: "/config/log_config.yaml"
+log_config: "/mrksr.config/log_config.yaml"
 
 
 ## Ratelimiting ##
@@ -89,7 +101,7 @@ turn_allow_guests: True
 
 ## Registration ##
 enable_registration: False
-registration_shared_secret: "{{ SYNAPSE_REGISTRATION_SHARED_SECRET }}"
+registration_shared_secret: "???"
 bcrypt_rounds: 12
 allow_guest_access: False
 
@@ -115,8 +127,8 @@ room_invite_state_types:
 app_service_config_files: []
 track_appservice_user_ips: False
 
-
-macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
+# FIXME(mrksr): Need to find a solution for this!
+# macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
 expire_access_token: False
 
 ## Signing Keys ##
@@ -145,12 +157,12 @@ password_providers:
       start_tls: false
       base: "ou=users,dc=zfix,dc=org"
       attributes:
-         uid: "cn"
-         mail: "email"
+         uid: "uid"
+         mail: "mail"
          name: "givenName"
-      # bind_dn:
-      # bind_password:
-      filter: "(objectClass=posixAccount)"
+      bind_dn: ""
+      bind_password: ""
+      # filter: "(objectClass=posixAccount)"
 
 enable_group_creation: true
 

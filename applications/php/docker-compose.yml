@@ -5,8 +5,11 @@ services:
     networks:
       - default
       - web
+      - matrix
     links:
       - php
+    external_links:
+      - matrix
     volumes_from:
       - php
     volumes:
@@ -25,3 +28,6 @@ networks:
   web:
     external:
       name: nginx_default
+  matrix:
+    external:
+      name: matrix_default
