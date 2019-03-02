@@ -49,7 +49,7 @@ database:
 event_cache_size: "10K"
 
 # A yaml python logging config file
-log_config: "/mrksr.config/log_config.yaml"
+log_config: "/compiled/log_config.yaml"
 
 
 ## Ratelimiting ##
@@ -90,18 +90,23 @@ max_spider_size: "10M"
 
 
 ## Turn ##
-# The public URIs of the TURN server to give to clients
-#turn_uris: []
-#turn_shared_secret: "YOUR_SHARED_SECRET"
-#turn_username: "TURNSERVER_USERNAME"
-#turn_password: "TURNSERVER_PASSWORD"
+{% if SYNAPSE_TURN_URIS %}
+turn_uris:
+{% for uri in SYNAPSE_TURN_URIS.split(',') %}    - "{{ uri }}"
+{% endfor %}
+turn_shared_secret: "{{ SYNAPSE_TURN_SECRET }}"
 turn_user_lifetime: "1h"
 turn_allow_guests: True
-
+{% else %}
+turn_uris: []
+turn_shared_secret: "YOUR_SHARED_SECRET"
+turn_user_lifetime: "1h"
+turn_allow_guests: True
+{% endif %}
 
 ## Registration ##
 enable_registration: False
-registration_shared_secret: "???"
+registration_shared_secret: "{{ SYNAPSE_REGISTRATION_SHARED_SECRET }}"
 bcrypt_rounds: 12
 allow_guest_access: False
 
@@ -112,7 +117,7 @@ trusted_third_party_id_servers:
 
 ## Metrics ###
 enable_metrics: False
-report_stats: false
+report_stats: False
 
 
 ## API Configuration ##
@@ -127,8 +132,7 @@ room_invite_state_types:
 app_service_config_files: []
 track_appservice_user_ips: False
 
-# FIXME(mrksr): Need to find a solution for this!
-# macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
+macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
 expire_access_token: False
 
 ## Signing Keys ##
@@ -145,9 +149,6 @@ perspectives:
 
 password_config:
    enabled: true
-   # Uncomment and change to a secret random string for extra security.
-   # DO NOT CHANGE THIS AFTER INITIAL SETUP!
-   #pepper: ""
 
 password_providers:
   - module: "ldap_auth_provider.LdapAuthProvider"
@@ -162,7 +163,7 @@ password_providers:
          name: "givenName"
       bind_dn: ""
       bind_password: ""
-      # filter: "(objectClass=posixAccount)"
+      filter: "(objectClass=posixAccount)"
 
 enable_group_creation: true
 

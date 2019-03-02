@@ -16,11 +16,15 @@ services:
     restart: unless-stopped
     environment:
       - UID=0
-      - SYNAPSE_CONFIG_PATH=/mrksr.config/homeserver.yaml
+      - SYNAPSE_SERVER_NAME=zfix.org
+      - SYNAPSE_REPORT_STATS=no
     volumes:
       - synapse_data:/data
-      - ./homeserver.yaml:/mrksr.config/homeserver.yaml:ro
-      - ./log_config.yaml:/mrksr.config/log_config.yaml:ro
+      # NOTE(mrksr): We overwrite the jinja templates used by the synapse
+      # docker file with our own configuration. Thus, most of the variables in
+      # the original documentation are ignored.
+      - ./homeserver.yaml:/conf/homeserver.yaml:ro
+      - ./log_config.yaml:/conf/log_config.yaml:ro
       - /srv/letsencrypt:/letsencrypt:ro
     depends_on:
       - db
