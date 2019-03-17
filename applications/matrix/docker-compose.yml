@@ -33,6 +33,17 @@ services:
     external_links:
       - ldap
 
+  riot:
+    image: bubuntux/riot-web:latest
+    networks:
+      # - default # NOTE(mrksr): No need to interact with anything server-side
+      - web
+    volumes:
+      - ./riot_config.json:/etc/riot-web/config.json:ro
+    environment:
+      - VIRTUAL_HOST=riot.zfix.org,riot.mrksr.de
+      - CERT_NAME=shared
+
   nginx:
     image: nginx
     networks:
