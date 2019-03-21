@@ -27,6 +27,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       rspamd \
       rsyslog \
       supervisor \
+    && find / -path /proc -prune -o -group _rspamd -exec chgrp -h 4000 {} \; \
+    && groupmod -g 4000 _rspamd \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 5000 vmail && \
