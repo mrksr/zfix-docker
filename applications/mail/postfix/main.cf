@@ -8,7 +8,7 @@ inet_interfaces = all
 biff = no
 append_dot_mydomain = no
 
-myhostname = smtp.zfix.org
+myhostname = zfix.org
 mydomain = zfix.org
 myorigin = $mydomain
 mynetworks = 127.0.0.0/8 [::1]/128
