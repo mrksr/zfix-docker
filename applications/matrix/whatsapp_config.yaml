@@ -1,0 +1,32 @@
+homeserver:
+  address: https://zfix.org
+  domain: zfix.org
+appservice:
+  address: http://whatsapp:8080
+  hostname: 0.0.0.0
+  port: 8080
+  database:
+    type: sqlite3
+    uri: mautrix-whatsapp.db
+  state_store_path: ./mx-state.json
+  id: whatsapp
+  bot:
+    username: whatsappbot
+    displayname: WhatsApp bridge bot
+    # avatar: mxc://maunium.net/NeXNQarUbrlYBiPCpprYsRqr
+  as_token: 1m03Oh3RJrkFSc78ETgbCYaRseBvqJhS6XP8xYFP4tfcbHIEAFfn8nxhNYinoGXy
+  hs_token: nieMjHOxb2RZ28T3sRRp4NyeXGigp2fbnhVXi87Q6tNPeb0KjPeQSP4CRqfE6nuN
+bridge:
+  username_template: whatsapp_{{.}}
+  displayname_template: '{{if .Notify}}{{.Notify}}{{else}}{{.Jid}}{{end}} (WA)'
+  command_prefix: '!wa'
+  permissions:
+    '@markus:zfix.org': 100
+    zfix.org: 10
+logging:
+  directory: ./logs
+  file_name_format: '{{.Date}}-{{.Index}}.log'
+  file_date_format: "2006-01-02"
+  file_mode: 384
+  timestamp_format: Jan _2, 2006 15:04:05
+  print_level: debug

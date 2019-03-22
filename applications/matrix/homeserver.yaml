@@ -129,7 +129,8 @@ room_invite_state_types:
     - "m.room.encryption"
     - "m.room.name"
 
-app_service_config_files: []
+app_service_config_files:
+    - "/bridges/whatsapp/registration.yaml"
 track_appservice_user_ips: False
 
 macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"

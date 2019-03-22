@@ -3,6 +3,7 @@ version: '3'
 volumes:
   postgres_data: {}
   synapse_data: {}
+  whatsapp_data: {}
 
 services:
   synapse:
@@ -20,6 +21,7 @@ services:
       - SYNAPSE_REPORT_STATS=no
     volumes:
       - synapse_data:/data
+      - whatsapp_data:/bridges/whatsapp:ro
       # NOTE(mrksr): We overwrite the jinja templates used by the synapse
       # docker file with our own configuration. Thus, most of the variables in
       # the original documentation are ignored.
@@ -64,6 +66,14 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  whatsapp:
+    image: tulir/mautrix-whatsapp
+    links:
+      - synapse
+    volumes:
+      - whatsapp_data:/data
+      - ./whatsapp_config.yaml:/data/config.yaml
 
 networks:
   web:
