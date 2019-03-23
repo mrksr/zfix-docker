@@ -14,8 +14,8 @@ appservice:
     username: whatsappbot
     displayname: WhatsApp bridge bot
     # avatar: mxc://maunium.net/NeXNQarUbrlYBiPCpprYsRqr
-  as_token: 1m03Oh3RJrkFSc78ETgbCYaRseBvqJhS6XP8xYFP4tfcbHIEAFfn8nxhNYinoGXy
-  hs_token: nieMjHOxb2RZ28T3sRRp4NyeXGigp2fbnhVXi87Q6tNPeb0KjPeQSP4CRqfE6nuN
+  as_token: "This value is generated when generating the registration"
+  hs_token: "This value is generated when generating the registration"
 bridge:
   username_template: whatsapp_{{.}}
   displayname_template: '{{if .Notify}}{{.Notify}}{{else}}{{.Jid}}{{end}} (WA)'
