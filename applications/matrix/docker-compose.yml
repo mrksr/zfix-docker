@@ -73,9 +73,17 @@ services:
       - synapse
     volumes:
       - whatsapp_data:/data
-      - ./whatsapp_config.yaml:/data/config.yaml
+      - ./whatsapp_config.yaml:/mrksr/config.yaml:ro
+      - ./healthcheck.sh:/mrksr/healthcheck.sh:ro
+    restart: always
+    entrypoint:
+      # NOTE(mrksr): The bridge wants to write and chown the settings files. To
+      # keep them read-only on the outside we copy them to the volume.
+      - sh
+      - -c
+      - 'cp /mrksr/* /data; exec /docker-run.sh'
     healthcheck:
-      test: "(find /data/logs | sort -r | head -n 1 | xargs tail -n 10 | grep -q -i 'error\\|fatal') && exit 1 || exit 0"
+      test: ["CMD-SHELL", "/mrksr/healthcheck.sh"]
       interval: 1m30s
       timeout: 5s
       retries: 1
