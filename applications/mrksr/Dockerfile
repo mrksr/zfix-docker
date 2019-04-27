@@ -8,8 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-ENV HUGO_VERSION 0.52
-ENV HUGO_BINARY hugo_${HUGO_VERSION}_Linux-64bit.deb
+ENV HUGO_VERSION 0.55.4
+ENV HUGO_BINARY hugo_extended_${HUGO_VERSION}_Linux-64bit.deb
 RUN wget -O /tmp/hugo.deb  https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/${HUGO_BINARY} && \
     dpkg -i /tmp/hugo.deb \
     && rm /tmp/hugo.deb
