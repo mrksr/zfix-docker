@@ -14,4 +14,5 @@
 # fi
 
 pkill mautrix-whatsapp
+sleep 5s
 exit 1

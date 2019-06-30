@@ -84,8 +84,8 @@ services:
       - 'cp /mrksr/* /data; exec /docker-run.sh'
     healthcheck:
       test: ["CMD-SHELL", "/mrksr/healthcheck.sh"]
-      interval: 3h
-      timeout: 5s
+      interval: 20h
+      timeout: 10s
       retries: 1
 
 networks:
