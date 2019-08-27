@@ -9,8 +9,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         curl \
         libc-client-dev \
         libc-client2007e-dev \
-        libcurl3 \
-        libcurl3-dev \
+        libcurl4 \
+        libcurl4-openssl-dev \
         libfreetype6-dev \
         libicu-dev \
         libjpeg62-turbo-dev \
