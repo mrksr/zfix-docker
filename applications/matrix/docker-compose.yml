@@ -68,7 +68,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   whatsapp:
-    image: tulir/mautrix-whatsapp
+    image: dock.mau.dev/tulir/mautrix-whatsapp
     links:
       - synapse
     volumes:
