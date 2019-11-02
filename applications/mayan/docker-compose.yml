@@ -22,7 +22,7 @@ services:
       - results:/data
 
   database:
-    image: postgres
+    image: postgres:11
     environment:
       POSTGRES_DB: mayan
       POSTGRES_PASSWORD: mayan

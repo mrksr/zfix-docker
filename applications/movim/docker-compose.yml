@@ -29,7 +29,7 @@ services:
       - ./supervisord.conf:/etc/supervisor/supervisord.conf:ro
 
   database:
-    image: postgres
+    image: postgres:11
     volumes:
       - /srv/movim/postgres:/var/lib/postgresql/data
     environment:

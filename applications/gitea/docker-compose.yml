@@ -22,7 +22,7 @@ services:
       - CERT_NAME=shared
 
   database:
-    image: postgres
+    image: postgres:11
     volumes:
       - /srv/git/postgres:/var/lib/postgresql/data
     environment:
