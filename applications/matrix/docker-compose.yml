@@ -82,11 +82,11 @@ services:
       - sh
       - -c
       - 'cp /mrksr/* /data; exec /docker-run.sh'
-    healthcheck:
-      test: ["CMD-SHELL", "/mrksr/healthcheck.sh"]
-      interval: 20h
-      timeout: 10s
-      retries: 1
+    # healthcheck:
+    #   test: ["CMD-SHELL", "/mrksr/healthcheck.sh"]
+    #   interval: 20h
+    #   timeout: 10s
+    #   retries: 1
 
 networks:
   web:
