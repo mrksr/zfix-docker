@@ -7,48 +7,70 @@ volumes:
     results: {}
 
 services:
-  broker:
-    image: rabbitmq
+  rabbitmq:
+    image: healthcheck/rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: mayan
-      RABBITMQ_DEFAULT_PASS: mayan
+      RABBITMQ_DEFAULT_PASS: mayanrabbitpass
       RABBITMQ_DEFAULT_VHOST: mayan
+    restart: unless-stopped
     volumes:
       - broker:/var/lib/rabbitmq
 
-  results:
-    image: redis
-    volumes:
-      - results:/data
+  redis:
+    command:
+      - redis-server
+      - --databases
+      - "2"
+      - --maxmemory-policy
+      - allkeys-lru
+      - --save
+      - ""
+    image: redis:5.0-alpine
+    restart: unless-stopped
 
-  database:
+  postgresql:
     image: postgres:11
     environment:
       POSTGRES_DB: mayan
       POSTGRES_PASSWORD: mayan
       POSTGRES_USER: mayan
+    restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   mayan-edms:
-    image: mrksr/mayanedms
-    build: .
+    image: mayanedms/mayanedms
     networks:
       - default
       - web
       - ldap
     external_links:
       - ldap
-    environment:
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgresql
+    environment: &mayan_env
+      MAYAN_USER_UID: 1042
+      MAYAN_USER_GID: 1042
+      MAYAN_APT_INSTALLS: >
+        tesseract-ocr-deu
+        tesseract-ocr-swe
+        build-essential
+        python3-dev
+        libldap2-dev
+        libsasl2-dev
+        libssl-dev
+      MAYAN_PIP_INSTALLS: >
+        python-ldap==3.2.0
+        django-auth-ldap==2.1.0
       MAYAN_BROKER_URL: amqp://mayan:mayan@broker:5672/mayan
-      MAYAN_CELERY_RESULT_BACKEND: redis://results:6379/0
-      MAYAN_DATABASE_ENGINE: django.db.backends.postgresql
-      MAYAN_DATABASE_HOST: database
-      MAYAN_DATABASE_NAME: mayan
-      MAYAN_DATABASE_PASSWORD: mayan
-      MAYAN_DATABASE_USER: mayan
+      MAYAN_CELERY_BROKER_URL: redis://redis:6379/0
+      MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
+      MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'}}"
       MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
-      MAYAN_DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'),('eng', 'English'), ('swe', 'Swedish'))
+      MAYAN_DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
       MAYAN_DOCUMENTS_LANGUAGE: 'deu'
       VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
       CERT_NAME: shared
@@ -58,7 +80,7 @@ services:
       # its thing.
       - sh
       - -c
-      - 'cp /mrksr/* /var/lib/mayan/mayan_settings; exec entrypoint.sh mayan'
+      - 'cp /mrksr/* /var/lib/mayan/mayan_settings; exec entrypoint.sh run_all'
     expose:
       - "8000"
     volumes:
