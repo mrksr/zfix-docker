@@ -28,6 +28,7 @@ borg create                         \
     --exclude '/home/*/.cache/*'    \
     --exclude '/var/cache/*'        \
     --exclude '/var/tmp/*'          \
+    --exclude '*/nobackup/*'        \
                                     \
     ::'{hostname}-{now}'            \
     /srv                            \
