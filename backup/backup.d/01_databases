@@ -7,7 +7,7 @@ for container_id in $( docker ps --filter ancestor=postgres --filter ancestor=po
     container_name=$(docker ps --filter ID=$container_id --format {{.Names}})
     docker exec $container_id bash -c "\
         PGPASSWORD=postgres pg_dumpall -U postgres \
-        " | xz > $BACKUP_FOLDER/postgres_${container_name}_latest.sql.xz
+        " | zstd -6 > $BACKUP_FOLDER/postgres_${container_name}_latest.sql.zst
 done
 
 # MariaDB
@@ -18,5 +18,5 @@ for container_id in $( docker ps --filter ancestor=mariadb --format {{.ID}} ); d
         -uroot -pstellarlyunbreakablekey \
         --single-transaction \
         --flush-logs --flush-privileges
-        " | xz > $BACKUP_FOLDER/mariadb_${container_name}_latest.sql.xz
+        " | zstd -6 > $BACKUP_FOLDER/mariadb_${container_name}_latest.sql.zst
 done
