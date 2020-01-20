@@ -27,7 +27,7 @@ borg create                         \
     --list                          \
     --stats                         \
     --show-rc                       \
-    --compression lz4               \
+    --compression zstd              \
     --exclude-caches                \
     --exclude '/home/*/.cache/*'    \
     --exclude '/var/cache/*'        \
