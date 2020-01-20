@@ -5,12 +5,16 @@ info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
 
-if [ -f run_borg_backup.env ]; then
-    source run_borg_backup.env
+basepath="$(dirname $(realpath $0))"
+info "Sourcing env file"
+if [ -f "$basepath/run_borg_backup.env" ]; then
+    . "$basepath/run_borg_backup.env"
 else
     info "Could not find env file. Proceeding anyway."
 fi
 
+info "Running scripts in $basepath/backup.d"
+run-parts -v -- "$basepath/backup.d"
 
 info "Starting backup"
 
