@@ -1,14 +1,16 @@
 #!/bin/sh
 
-# Setting this, so the repo does not need to be given on the commandline:
-export BORG_REPO=/home/markus/borg
-
-# Setting this, so you won't be asked for your repository passphrase:
-export BORG_PASSPHRASE='hallo'
-
 # some helpers and error handling:
 info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
+
+
+if [ -f run_borg_backup.env ]; then
+    source run_borg_backup.env
+else
+    info "Could not find env file. Proceeding anyway."
+fi
+
 
 info "Starting backup"
 

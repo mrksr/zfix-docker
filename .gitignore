@@ -7,3 +7,6 @@ zfix-docker@.service
 
 # Secret things
 *secret*
+
+# Backup env file
+backup/*.env
