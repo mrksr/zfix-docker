@@ -49,7 +49,7 @@ database:
 event_cache_size: "10K"
 
 # A yaml python logging config file
-log_config: "/compiled/log_config.yaml"
+log_config: "/conf/log_config.yaml"
 
 
 ## Ratelimiting ##
