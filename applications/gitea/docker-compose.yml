@@ -16,13 +16,26 @@ services:
       - /srv/git/gitea:/data/gitea
       - /srv/git/repos:/data/git
       - /srv/git/ssh:/data/ssh
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - VIRTUAL_HOST=git.zfix.org,git.mrksr.de
       - VIRTUAL_PORT=3000
       - CERT_NAME=shared
+      - DB_TYPE=postgres
+      - DB_HOST=database:5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWD=postgres
+      - SSH_DOMAIN=zfix.org
+      - RUN_MODE=prod
+      - APP_NAME="zfix.org Git"
+      - ROOT_URL="https://git.zfix.org"
+      - LFS_START_SERVER=true
+      - DISABLE_REGISTRATION=true
 
   database:
-    image: postgres:11
+    image: postgres:12
     volumes:
       - /srv/git/postgres:/var/lib/postgresql/data
     environment:
