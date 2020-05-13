@@ -18,7 +18,7 @@ services:
       - nginx
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
+      - ./templates:/etc/docker-gen/templates:ro
     environment:
       - DEFAULT_HOST=mrksr.de
       - CERT_NAME=shared
