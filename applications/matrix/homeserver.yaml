@@ -132,7 +132,6 @@ room_invite_state_types:
 app_service_config_files:
     - "/bridges/whatsapp/registration.yaml"
     - "/bridges/signal/signal-registration.yaml"
-    - "/bridges/slack/slack-registration.yaml"
 track_appservice_user_ips: False
 
 macaroon_secret_key: "{{ SYNAPSE_MACAROON_SECRET_KEY }}"
