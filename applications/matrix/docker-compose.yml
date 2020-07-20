@@ -5,6 +5,8 @@ volumes:
   synapse_data: {}
   whatsapp_data: {}
   signal_data: {}
+  slack_data: {}
+  slack_postgres_data: {}
 
 services:
   synapse:
@@ -24,6 +26,7 @@ services:
       - synapse_data:/data
       - whatsapp_data:/bridges/whatsapp:ro
       - signal_data:/bridges/signal:ro
+      - slack_data:/bridges/slack:ro
       # NOTE(mrksr): We overwrite the jinja templates used by the synapse
       # docker file with our own configuration. Thus, most of the variables in
       # the original documentation are ignored.
@@ -101,6 +104,32 @@ services:
       - signal_data:/data
       - ./signal_config.json:/conf/config.json
     restart: always
+
+  slack:
+    image: matrixdotorg/matrix-appservice-slack:latest
+    links:
+      - synapse
+      - slack_db
+    command:
+      - "-p"
+      - "5858"
+      - "-f"
+      - "/data/slack-registration.yaml"
+    volumes:
+      - slack_data:/data
+      - ./slack_config.yaml:/config/config.yaml:ro
+      - /srv/letsencrypt:/letsencrypt:ro
+    ports:
+      - 9898:9898/tcp
+    restart: always
+
+  slack_db:
+    image: docker.io/postgres:10-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - slack_postgres_data:/var/lib/postgresql/data
 
 networks:
   web:
