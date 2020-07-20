@@ -1,5 +1,5 @@
 homeserver:
-  address: https://zfix.org
+  address: http://matrix:8008
   domain: zfix.org
 appservice:
   address: http://whatsapp:8080

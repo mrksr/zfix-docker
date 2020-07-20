@@ -2,7 +2,7 @@
   "registrationPath": "/data/signal-registration.yaml",
   "port": 8090,
   "bridge": {
-    "homeserverUrl": "https://zfix.org",
+    "homeserverUrl": "http://matrix:8008",
     "domain": "zfix.org",
     "registration": "/data/signal-registration.yaml"
   },
