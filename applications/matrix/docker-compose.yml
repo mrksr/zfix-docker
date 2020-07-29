@@ -33,6 +33,8 @@ services:
       - ./homeserver.yaml:/conf/homeserver.yaml:ro
       - ./log_config.yaml:/conf/log_config.yaml:ro
       - /srv/letsencrypt:/letsencrypt:ro
+    links:
+      - db
     depends_on:
       - db
     ports:
