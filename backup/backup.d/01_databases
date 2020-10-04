@@ -3,7 +3,16 @@
 BACKUP_FOLDER=${ZFIX_DB_BACKUP_FOLDER:-/srv/backup}
 
 # Postgres
-for container_id in $( docker ps --filter ancestor=postgres --filter ancestor=postgres:alpine --filter ancestor=postgres:11 --filter ancestor=postgres:11-alpine --filter ancestor=postgres:10 --filter ancestor=postgres:10-alpine --format {{.ID}} ); do
+for container_id in $( \
+    docker ps \
+    --filter ancestor=postgres --filter ancestor=postgres:alpine \
+    --filter ancestor=postgres:15 --filter ancestor=postgres:15-alpine \
+    --filter ancestor=postgres:14 --filter ancestor=postgres:14-alpine \
+    --filter ancestor=postgres:13 --filter ancestor=postgres:13-alpine \
+    --filter ancestor=postgres:12 --filter ancestor=postgres:12-alpine \
+    --filter ancestor=postgres:11 --filter ancestor=postgres:11-alpine \
+    --filter ancestor=postgres:10 --filter ancestor=postgres:10-alpine \
+    --format {{.ID}} ); do
     container_name=$(docker ps --filter ID=$container_id --format {{.Names}})
     docker exec $container_id bash -c "\
         PGPASSWORD=postgres pg_dumpall -U postgres \
