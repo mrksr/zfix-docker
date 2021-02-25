@@ -1,10 +1,12 @@
-version: '3'
+version: "3"
 
 volumes:
   postgres_data: {}
   synapse_data: {}
   whatsapp_data: {}
-  signal_data: {}
+  signal_bridge_data: {}
+  signal_signald_data: {}
+  signal_postgres_data: {}
 
 services:
   synapse:
@@ -23,7 +25,7 @@ services:
     volumes:
       - synapse_data:/data
       - whatsapp_data:/bridges/whatsapp:ro
-      - signal_data:/bridges/signal:ro
+      - signal_bridge_data:/bridges/signal:ro
       # NOTE(mrksr): We overwrite the jinja templates used by the synapse
       # docker file with our own configuration. Thus, most of the variables in
       # the original documentation are ignored.
@@ -76,33 +78,41 @@ services:
 
   whatsapp:
     image: dock.mau.dev/tulir/mautrix-whatsapp
+    restart: unless-stopped
     links:
       - synapse
     volumes:
       - whatsapp_data:/data
-      - ./whatsapp_config.yaml:/mrksr/config.yaml:ro
-      - ./healthcheck.sh:/mrksr/healthcheck.sh:ro
-    restart: always
-    entrypoint:
-      # NOTE(mrksr): The bridge wants to write and chown the settings files. To
-      # keep them read-only on the outside we copy them to the volume.
-      - sh
-      - -c
-      - 'cp /mrksr/* /data; exec /docker-run.sh'
-    # healthcheck:
-    #   test: ["CMD-SHELL", "/mrksr/healthcheck.sh"]
-    #   interval: 20h
-    #   timeout: 10s
-    #   retries: 1
 
   signal:
-    image: icewind1991/matrix-puppet-signal-docker
+    image: dock.mau.dev/tulir/mautrix-signal
+    restart: unless-stopped
     links:
       - synapse
+      - signald
+      - signal_postgres
     volumes:
-      - signal_data:/data
-      - ./signal_config.json:/conf/config.json
-    restart: always
+      - signal_bridge_data:/data
+      - signal_signald_data:/signald
+    depends_on:
+      - signald
+
+  signald:
+    container_name: signald
+    image: docker.io/finn/signald
+    restart: unless-stopped
+    volumes:
+      - signal_signald_data:/signald
+
+  signal_postgres:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DATABASE: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - signal_postgres_data:/var/lib/postgresql/data
 
 networks:
   web:
