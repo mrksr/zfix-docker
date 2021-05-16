@@ -10,7 +10,7 @@ $(APPLICATIONS): %:
 	find applications/$@ -name "Dockerfile*" | \
 		xargs -n 1 awk '/^FROM[ \t\r\n\v\f]/ && !/mrksr/ { print /:/ ? $$2 : $$2":latest" }' | \
 		xargs --no-run-if-empty -n 1 docker pull
-	docker-compose --file applications/$@/docker-compose.yml pull --ignore-pull-failures
+	docker-compose --file applications/$@/docker-compose.yml pull --ignore-pull-failures || exit 0
 	docker-compose --file applications/$@/docker-compose.yml build --no-cache
 
 base:
