@@ -59,7 +59,7 @@ services:
         tesseract-ocr-swe
         build-essential
         python3-dev
-        libldap2-dev
+        libldap2-dev=2.4.57+dfsg-2~bpo10+1
         libsasl2-dev
         libssl-dev
       MAYAN_PIP_INSTALLS: >
