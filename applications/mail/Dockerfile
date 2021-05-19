@@ -1,6 +1,14 @@
 FROM mrksr/base
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
+# NOTE(mrksr): We temporarily overwrite the hostname binary to raturn something
+# the post-install script of postfix likes. This does not really have any
+# effect because the resulting confi gfile is replaced anyway, but we need to
+# make apk happy.
+RUN mv /bin/hostname /bin/hostname.bkp; \
+    echo "echo zfix.mail.local" > /usr/bin/hostname; \
+    chmod +x /usr/bin/hostname
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gnupg \
@@ -30,6 +38,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && find / -path /proc -prune -o -group _rspamd -exec chgrp -h 4000 {} \; \
     && groupmod -g 4000 _rspamd \
     && rm -rf /var/lib/apt/lists/*
+
+RUN mv /bin/hostname.bkp /bin/hostname
 
 RUN groupadd -g 5000 vmail && \
     useradd -g vmail -u 5000 -d /srv/vmail -M -s /usr/sbin/nologin vmail && \
