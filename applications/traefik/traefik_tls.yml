@@ -1,0 +1,9 @@
+tls:
+  certificates:
+    - certFile: /letsencrypt/shared.crt
+      keyFile: /letsencrypt/shared.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /letsencrypt/shared.crt
+        keyFile: /letsencrypt/shared.key

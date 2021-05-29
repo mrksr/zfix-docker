@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik
+    command:
+      - "--entrypoints.web.address=:81"
+      - "--entrypoints.web-secure.address=:444"
+      - --api.insecure=true
+      - --providers.docker
+      - --providers.file.directory=/configuration/
+      - --providers.file.watch=true
+      - --log.level=INFO
+    ports:
+      - "81:81"
+      - "444:444"
+    volumes:
+      - ./traefik_tls.yml:/configuration/traefik_tls.yml:ro
+      - /srv/letsencrypt:/letsencrypt:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.zfix.org`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+  whoami:
+    image: traefik/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`zfix.org`)"
