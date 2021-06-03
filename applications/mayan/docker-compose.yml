@@ -59,12 +59,13 @@ services:
         tesseract-ocr-swe
         build-essential
         python3-dev
-        libldap2-dev=2.4.57+dfsg-2~bpo10+1
+        gcc
+        libldap2-dev/buster-backports
         libsasl2-dev
         libssl-dev
       MAYAN_PIP_INSTALLS: >
-        python-ldap==3.2.0
-        django-auth-ldap==2.1.0
+        python-ldap
+        django-auth-ldap
       MAYAN_CELERY_BROKER_URL: amqp://mayan:mayan@rabbitmq:5672/mayan
       # MAYAN_CELERY_BROKER_URL: redis://redis:6379/0
       MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
