@@ -4,7 +4,6 @@ volumes:
     broker: {}
     app: {}
     postgres_data: {}
-    results: {}
 
 services:
   rabbitmq:
@@ -73,6 +72,7 @@ services:
       MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
       MAYAN_DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
       MAYAN_DOCUMENTS_LANGUAGE: 'deu'
+      MAYAN_SEARCH_BACKEND: 'mayan.apps.dynamic_search.backends.whoosh.WhooshSearchBackend'
       VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
       CERT_NAME: shared
     entrypoint:
