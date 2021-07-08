@@ -16,11 +16,10 @@ handlers:
     filters: [context]
 
 loggers:
-    synapse:
-        level: WARNING
-
-    synapse.storage.SQL:
-        level: WARNING
+  synapse:
+    level: WARNING
+  synapse.storage.SQL:
+    level: WARNING
 
 root:
     level: WARNING
