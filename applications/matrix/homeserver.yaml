@@ -163,6 +163,7 @@ password_providers:
   - module: "ldap_auth_provider.LdapAuthProvider"
     config:
       enabled: true
+      mode: "search"
       uri: "ldap://ldap:389"
       start_tls: false
       base: "ou=users,dc=zfix,dc=org"
@@ -170,8 +171,8 @@ password_providers:
          uid: "uid"
          mail: "mail"
          name: "givenName"
-      bind_dn: ""
-      bind_password: ""
+      bind_dn: "cn=searchBind,dc=zfix,dc=org"
+      bind_password: "<mypassword>"
       filter: "(objectClass=posixAccount)"
 
 enable_group_creation: true
