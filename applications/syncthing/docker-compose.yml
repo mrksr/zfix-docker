@@ -1,19 +1,5 @@
 version: '2'
 services:
-  nginx_config:
-    image: nginx
-    networks:
-      - default
-      - web
-    links:
-      - syncthing
-    volumes:
-      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./stdauth_private:/etc/nginx/stdauth_private:ro
-    environment:
-      - VIRTUAL_HOST=syncthing.zfix.org,syncthing.mrksr.de
-      - CERT_NAME=shared
-
   nginx_fileserver:
     image: nginx
     networks:
@@ -31,12 +17,19 @@ services:
   syncthing:
     image: mrksr/syncthing
     build: .
+    networks:
+      - default
+      - web
     ports:
       - 22000:22000
       - 21027:21027/udp
     volumes:
       - /srv/syncthing/config:/syncthing/config
       - /srv/syncthing/data:/syncthing/data
+    environment:
+      - VIRTUAL_HOST=syncthing.zfix.org,syncthing.mrksr.de
+      - VIRTUAL_PORT=8384
+      - CERT_NAME=shared
 
 networks:
   web:
