@@ -45,12 +45,12 @@ services:
       - ldap
 
   riot:
-    image: vectorim/riot-web:latest
+    image: vectorim/element-web:latest
     networks:
       # - default # NOTE(mrksr): No need to interact with anything server-side
       - web
     volumes:
-      - ./riot_config.json:/etc/riot-web/config.json:ro
+      - ./riot_config.json:/etc/element-web/config.json:ro
     environment:
       - VIRTUAL_HOST=riot.zfix.org,riot.mrksr.de,element.zfix.org,element.mrksr.de
       - CERT_NAME=shared
