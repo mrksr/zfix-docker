@@ -2,6 +2,7 @@
 
 server_name: "zfix.org"
 pid_file: /homeserver.pid
+web_client_location: https://element.zfix.org
 public_baseurl: https://zfix.org/
 
 soft_file_limit: 0
@@ -51,16 +52,6 @@ event_cache_size: "10K"
 # A yaml python logging config file
 log_config: "/conf/log_config.yaml"
 
-
-## Ratelimiting ##
-rc_messages_per_second: 0.2
-rc_message_burst_count: 10.0
-federation_rc_window_size: 1000
-federation_rc_sleep_limit: 10
-federation_rc_sleep_delay: 500
-federation_rc_reject_limit: 50
-federation_rc_concurrent: 3
-
 media_store_path: "/data/media"
 uploads_path: "/data/uploads"
 max_upload_size: "50M"
@@ -69,21 +60,21 @@ max_image_pixels: "32M"
 dynamic_thumbnails: false
 
 thumbnail_sizes:
-- width: 32
-  height: 32
-  method: crop
-- width: 96
-  height: 96
-  method: crop
-- width: 320
-  height: 240
-  method: scale
-- width: 640
-  height: 480
-  method: scale
-- width: 800
-  height: 600
-  method: scale
+  - width: 32
+    height: 32
+    method: crop
+  - width: 96
+    height: 96
+    method: crop
+  - width: 320
+    height: 240
+    method: scale
+  - width: 640
+    height: 480
+    method: scale
+  - width: 800
+    height: 600
+    method: scale
 
 url_preview_enabled: True
 url_preview_ip_range_blacklist:
@@ -92,7 +83,20 @@ url_preview_ip_range_blacklist:
   - '172.16.0.0/12'
   - '192.168.0.0/16'
   - '100.64.0.0/10'
+  - '192.0.0.0/24'
   - '169.254.0.0/16'
+  - '192.88.99.0/24'
+  - '198.18.0.0/15'
+  - '192.0.2.0/24'
+  - '198.51.100.0/24'
+  - '203.0.113.0/24'
+  - '224.0.0.0/4'
+  - '::1/128'
+  - 'fe80::/10'
+  - 'fc00::/7'
+  - '2001:db8::/32'
+  - 'ff00::/8'
+  - 'fec0::/10'
 max_spider_size: "10M"
 
 
@@ -128,14 +132,6 @@ report_stats: False
 
 
 ## API Configuration ##
-# A list of event types that will be included in the room_invite_state
-room_invite_state_types:
-    - "m.room.join_rules"
-    - "m.room.canonical_alias"
-    - "m.room.avatar"
-    - "m.room.encryption"
-    - "m.room.name"
-
 app_service_config_files:
     - "/bridges/whatsapp/registration.yaml"
     - "/bridges/signal/registration.yaml"
@@ -157,7 +153,7 @@ perspectives:
           key: "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw"
 
 password_config:
-   enabled: true
+  enabled: true
 
 password_providers:
   - module: "ldap_auth_provider.LdapAuthProvider"
@@ -181,3 +177,10 @@ alias_creation_rules:
     - user_id: "*"
       alias: "*"
       action: allow
+
+email:
+  smtp_host: zfix.org
+  smtp_port: 587
+  smtp_user: "droid"
+  smtp_pass: "<mypassword>"
+  notif_from: "zfix.org Droid <droid@zfix.org>"
