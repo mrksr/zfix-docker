@@ -4,7 +4,7 @@ MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     git \
-    python-pygments \
+    python3-pygments \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
