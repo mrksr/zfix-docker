@@ -5,7 +5,7 @@ volumes:
 
 services:
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce
     restart: always
     command:
       # - "--templates=http://templates/templates.json"
