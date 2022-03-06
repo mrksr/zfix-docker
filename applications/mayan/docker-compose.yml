@@ -59,7 +59,7 @@ services:
         build-essential
         python3-dev
         gcc
-        libldap2-dev/buster-backports
+        libldap2-dev
         libsasl2-dev
         libssl-dev
       MAYAN_PIP_INSTALLS: >
@@ -70,7 +70,7 @@ services:
       MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
       MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'}}"
       MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
-      MAYAN_DOCUMENTS_LANGUAGE_CHOICES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
+      MAYAN_DOCUMENTS_LANGUAGE_CODES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
       MAYAN_DOCUMENTS_LANGUAGE: 'deu'
       MAYAN_SEARCH_BACKEND: 'mayan.apps.dynamic_search.backends.whoosh.WhooshSearchBackend'
       VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
