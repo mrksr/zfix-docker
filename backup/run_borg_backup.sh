@@ -37,7 +37,6 @@ borg create                         \
     ::'{hostname}-{now}'            \
     /srv                            \
     /var/lib/docker/volumes         \
-    /var/log                        \
 
 backup_exit=$?
 
