@@ -1,9 +1,9 @@
-FROM mrksr/base
+FROM ubuntu:22.04
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 # NOTE(mrksr): We temporarily overwrite the hostname binary to raturn something
 # the post-install script of postfix likes. This does not really have any
-# effect because the resulting confi gfile is replaced anyway, but we need to
+# effect because the resulting config file is replaced anyway, but we need to
 # make apk happy.
 RUN mv /bin/hostname /bin/hostname.bkp; \
     echo "echo zfix.mail.local" > /usr/bin/hostname; \
