@@ -57,15 +57,21 @@ borg prune                          \
 
 prune_exit=$?
 
+# Use the `compact` subcommand to remove unused chunks and clean up space.
+borg compact
+
+compact_exit=$?
+
 # use highest exit code as global exit code
-global_exit=$(( backup_exit > prune_exit ? backup_exit : prune_exit ))
+# global_exit=$(( backup_exit > prune_exit ? backup_exit : prune_exit ))
+global_exit=$(echo -e "$backup_exit\n$prune_exit\n$compact_exit" | sort -rn | head -1)
 
 if [ ${global_exit} -eq 0 ]; then
-    info "Backup and Prune finished successfully"
+    info "Backup, Prune and Compact finished successfully"
 elif [ ${global_exit} -eq 1 ]; then
-    info "Backup and/or Prune finished with warnings"
+    info "Backup and/or Prune and/or Compact finished with warnings"
 else
-    info "Backup and/or Prune finished with errors"
+    info "Backup and/or Prune and/or Compact finished with errors"
 fi
 
 exit ${global_exit}
