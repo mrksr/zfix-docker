@@ -1,4 +1,4 @@
-compatibility_level = 2
+compatibility_level = 3.6
 
 
 # Internet and Hostnames
@@ -63,9 +63,9 @@ smtpd_recipient_restrictions =
     reject_unknown_recipient_domain,
     reject_rbl_client ix.dnsbl.manitu.net,
     reject_rbl_client bl.spamcop.net,
-    reject_rbl_client sbl-xbl.spamhaus.org,
-    reject_rhsbl_helo db1.spamhaus.org,
-    reject_rhsbl_client db1.spamhaus.org,
+    reject_rbl_client jttteabqzuptx2nqexwopvgvty.zen.dq.spamhaus.net,
+    reject_rhsbl_helo jttteabqzuptx2nqexwopvgvty.dbl.dq.spamhaus.net,
+    reject_rhsbl_client jttteabqzuptx2nqexwopvgvty.dbl.dq.spamhaus.net,
     permit
 
 
