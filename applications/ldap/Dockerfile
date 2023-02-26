@@ -9,4 +9,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 EXPOSE 389
 
-CMD ["/usr/sbin/slapd", "-h", "ldap:/// ldapi://localhost/", "-u", "openldap", "-g", "openldap", "-d", "256"]
+# Set ulimit to "fix" slapd assertion error.
+# See https://github.com/moby/moby/issues/8231
+CMD ulimit -n 1024 && /usr/sbin/slapd -h "ldap:/// ldapi://localhost/" -u openldap -g openldap -d 256
