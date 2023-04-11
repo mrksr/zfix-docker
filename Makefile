@@ -1,6 +1,6 @@
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 DOCKER_ARGS ?=
-BASE_IMAGES = base base-php base-uwsgi
+BASE_IMAGES = base-php base-uwsgi
 APPLICATIONS ?= $(patsubst applications/%/,%,$(wildcard applications/*/))
 
 .PHONY: $(BASE_IMAGES) $(APPLICATIONS)
