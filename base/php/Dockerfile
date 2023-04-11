@@ -1,7 +1,4 @@
-# FIXME(mrksr): movim depends on zmq which is not compatible to php >= 7.3.
-# Pinned PHP version for now, after an update to movim the dependency on zmq
-# can be removed.
-FROM php:7.2-fpm
+FROM php:8-fpm
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -25,7 +22,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         libtidy-dev \
         libxml2-dev \
         libzip-dev \
-        libzmq3-dev \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -38,34 +34,24 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
 
 # Some special stuff
 RUN pecl channel-update pecl.php.net \
-    && pecl install zmq-beta \
-    && docker-php-ext-enable zmq \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 
 # Main extensions
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install -j$(nproc) bcmath \
-    && docker-php-ext-install -j$(nproc) curl \
-    && docker-php-ext-install -j$(nproc) ftp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install -j$(nproc) gettext \
-    && docker-php-ext-install -j$(nproc) hash \
-    && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install -j$(nproc) mbstring \
     && docker-php-ext-install -j$(nproc) mysqli \
     && docker-php-ext-install -j$(nproc) opcache \
     && docker-php-ext-install -j$(nproc) pcntl \
-    && docker-php-ext-install -j$(nproc) pdo \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
     && docker-php-ext-install -j$(nproc) pgsql \
-    && docker-php-ext-install -j$(nproc) posix \
     && docker-php-ext-install -j$(nproc) pspell \
     && docker-php-ext-install -j$(nproc) soap \
     && docker-php-ext-install -j$(nproc) sockets \
     && docker-php-ext-install -j$(nproc) tidy \
-    && docker-php-ext-install -j$(nproc) xml \
     && docker-php-ext-install -j$(nproc) zip
