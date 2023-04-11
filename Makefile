@@ -13,9 +13,6 @@ $(APPLICATIONS): %:
 	docker-compose --file applications/$@/docker-compose.yml pull --ignore-pull-failures || exit 0
 	docker-compose --file applications/$@/docker-compose.yml build --no-cache
 
-base:
-	docker buildx build $(DOCKER_ARGS) --tag mrksr/base base/base
-
 base-php:
 	docker buildx build $(DOCKER_ARGS) --tag mrksr/php base/php
 	docker buildx build $(DOCKER_ARGS) --tag mrksr/php-5 --file base/php/Dockerfile.php5 base/php

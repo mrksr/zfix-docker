@@ -1,4 +1,4 @@
-FROM mrksr/base
+FROM ubuntu:22.04
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
