@@ -1,4 +1,4 @@
-FROM mrksr/php
+FROM mrksr/php-5
 MAINTAINER Markus Kaiser <markus.kaiser@in.tum.de>
 
 RUN bash -c "shopt -s dotglob; rm -rf /srv/*" \
