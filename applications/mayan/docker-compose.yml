@@ -1,31 +1,37 @@
 version: '3.9'
 
+x-mayan-environment:
+  &mayan-environment
+  MAYAN_USER_UID: 1042
+  MAYAN_USER_GID: 1042
+  MAYAN_APT_INSTALLS: >
+    tesseract-ocr-deu
+    tesseract-ocr-swe
+    build-essential
+    python3-dev
+    gcc
+    libldap2-dev
+    libsasl2-dev
+    libssl-dev
+  MAYAN_PIP_INSTALLS: >
+    python-ldap
+    django-auth-ldap
+  MAYAN_DOCKER_WAIT: "postgresql:5432 rabbitmq:5672 redis:6379"
+  MAYAN_CELERY_BROKER_URL: amqp://mayan:mayan@rabbitmq:5672/mayan
+  MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
+  MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'} }"
+  MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
+  MAYAN_DOCUMENTS_LANGUAGE_CODES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
+  MAYAN_DOCUMENTS_LANGUAGE: 'deu'
+  MAYAN_SEARCH_BACKEND: 'mayan.apps.dynamic_search.backends.elasticsearch.ElasticSearchBackend'
+  MAYAN_SEARCH_BACKEND_ARGUMENTS: "{'client_hosts':['http://elasticsearch:9200'],'client_http_auth':['elastic', 'mayan']}"
+  MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
+  MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS: "{'redis_url':'redis://redis:6379/2'}"
+
 x-mayan-container:
   &mayan-container
   environment:
-    MAYAN_USER_UID: 1042
-    MAYAN_USER_GID: 1042
-    MAYAN_APT_INSTALLS: >
-      tesseract-ocr-deu
-      tesseract-ocr-swe
-      build-essential
-      python3-dev
-      gcc
-      libldap2-dev
-      libsasl2-dev
-      libssl-dev
-    MAYAN_PIP_INSTALLS: >
-      python-ldap
-      django-auth-ldap
-    MAYAN_DOCKER_WAIT: "postgresql:5432 rabbitmq:5672 redis:6379"
-    MAYAN_CELERY_BROKER_URL: amqp://mayan:mayan@rabbitmq:5672/mayan
-    MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
-    MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'} }"
-    MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
-    MAYAN_DOCUMENTS_LANGUAGE_CODES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
-    MAYAN_DOCUMENTS_LANGUAGE: 'deu'
-    MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
-    MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS: "{'redis_url':'redis://redis:6379/2'}"
+    <<: *mayan-environment
   image: mayanedms/mayanedms
   networks:
     - mayan
@@ -46,14 +52,6 @@ x-mayan-container:
     - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
     - /srv/syncthing/data/mayan:/syncthing
 
-x-mayan-web-labels:
-  &mayan-web-labels
-  environment:
-    VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
-    CERT_NAME: shared
-  expose:
-    - "8000"
-
 networks:
   mayan:
     driver: bridge
@@ -67,7 +65,13 @@ networks:
 
 services:
   app:
-    <<: [*mayan-container,*mayan-web-labels]
+    <<: *mayan-container
+    environment:
+      <<: *mayan-environment
+      VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
+      CERT_NAME: shared
+    expose:
+      - "8000"
 
   elasticsearch:
     environment:
@@ -112,7 +116,7 @@ services:
       - mayan
     restart: unless-stopped
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   redis:
     command:
@@ -161,6 +165,6 @@ services:
 volumes:
   app:
   elasticsearch:
-  postgres:
+  postgres_data:
   rabbitmq:
   redis:
