@@ -1,98 +1,233 @@
-version: '2.1'
+version: '3.9'
 
-volumes:
-    broker: {}
-    app: {}
-    postgres_data: {}
+x-mayan-container:
+  &mayan-container
+  environment:
+    MAYAN_USER_UID: 1042
+    MAYAN_USER_GID: 1042
+    MAYAN_APT_INSTALLS: >
+      tesseract-ocr-deu
+      tesseract-ocr-swe
+      build-essential
+      python3-dev
+      gcc
+      libldap2-dev
+      libsasl2-dev
+      libssl-dev
+    MAYAN_PIP_INSTALLS: >
+      python-ldap
+      django-auth-ldap
+    MAYAN_DOCKER_WAIT: "postgresql:5432 rabbitmq:5672 redis:6379"
+    MAYAN_CELERY_BROKER_URL: amqp://mayan:mayan@rabbitmq:5672/mayan
+    MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
+    MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'} }"
+    MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
+    MAYAN_DOCUMENTS_LANGUAGE_CODES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
+    MAYAN_DOCUMENTS_LANGUAGE: 'deu'
+    MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
+    MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS: "{'redis_url':'redis://redis:6379/2'}"
+  image: mayanedms/mayanedms
+  networks:
+    - mayan
+    - web
+    - ldap
+  external_links:
+    - ldap
+  restart: unless-stopped
+  entrypoint:
+    # NOTE(mrksr): Mayan wants to chown the settings files. To keep them
+    # read-only on the outside we copy them to the volume and let Mayan do
+    # its thing.
+    - sh
+    - -c
+    - 'cp /mrksr/* /var/lib/mayan/mayan_settings; exec entrypoint.sh run_all'
+  volumes:
+    - app:/var/lib/mayan
+    - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
+    - /srv/syncthing/data/mayan:/syncthing
+
+x-mayan-web-labels:
+  &mayan-web-labels
+  environment:
+    VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
+    CERT_NAME: shared
+  expose:
+    - "8000"
+
+networks:
+  mayan:
+    driver: bridge
+    internal: true
+  web:
+    name: nginx_default
+    external: true
+  ldap:
+    name: ldap_default
+    external: true
 
 services:
-  rabbitmq:
-    image: healthcheck/rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: mayan
-      RABBITMQ_DEFAULT_PASS: mayan
-      RABBITMQ_DEFAULT_VHOST: mayan
-    restart: unless-stopped
-    volumes:
-      - broker:/var/lib/rabbitmq
+  app:
+    <<: [*mayan-container,*mayan-web-labels]
 
-  redis:
-    command:
-      - redis-server
-      - --databases
-      - "2"
-      - --maxmemory-policy
-      - allkeys-lru
-      - --save
-      - ""
-    image: redis:5.0-alpine
+  elasticsearch:
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - http.max_content_length=400mb
+      - xpack.security.enabled=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=mayan
+    image: elasticsearch:7.17.9
+    networks:
+      - mayan
     restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
 
   postgresql:
-    image: postgres:11
+    command:
+      - "postgres"
+      - "-c"
+      - "checkpoint_completion_target=0.6"
+      - "-c"
+      - "default_statistics_target=200"
+      - "-c"
+      - "maintenance_work_mem=128MB"
+      - "-c"
+      - "max_connections=150"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "work_mem=8MB"
     environment:
       POSTGRES_DB: mayan
       POSTGRES_PASSWORD: mayan
       POSTGRES_USER: mayan
+    image: postgres:11
+    networks:
+      - mayan
     restart: unless-stopped
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
-  mayan-edms:
-    image: mayanedms/mayanedms
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "no"
+      - --databases
+      - "3"
+      - --maxmemory
+      - "100mb"
+      - --maxclients
+      - "500"
+      - --maxmemory-policy
+      - "allkeys-lru"
+      - --save
+      - ""
+      - --tcp-backlog
+      - "256"
+    image: redis:7.0.10-alpine
     networks:
-      - default
-      - web
-      - ldap
-    external_links:
-      - ldap
-    depends_on:
-      - rabbitmq
-      - redis
-      - postgresql
-    environment: &mayan_env
-      MAYAN_USER_UID: 1042
-      MAYAN_USER_GID: 1042
-      MAYAN_APT_INSTALLS: >
-        tesseract-ocr-deu
-        tesseract-ocr-swe
-        build-essential
-        python3-dev
-        gcc
-        libldap2-dev
-        libsasl2-dev
-        libssl-dev
-      MAYAN_PIP_INSTALLS: >
-        python-ldap
-        django-auth-ldap
-      MAYAN_CELERY_BROKER_URL: amqp://mayan:mayan@rabbitmq:5672/mayan
-      # MAYAN_CELERY_BROKER_URL: redis://redis:6379/0
-      MAYAN_CELERY_RESULT_BACKEND: redis://redis:6379/1
-      MAYAN_DATABASES: "{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayan','USER':'mayan','HOST':'postgresql'}}"
-      MAYAN_SETTINGS_MODULE: mayan_settings.ldap_connection_settings
-      MAYAN_DOCUMENTS_LANGUAGE_CODES: (('deu', 'German'), ('eng', 'English'), ('swe', 'Swedish'))
-      MAYAN_DOCUMENTS_LANGUAGE: 'deu'
-      MAYAN_SEARCH_BACKEND: 'mayan.apps.dynamic_search.backends.whoosh.WhooshSearchBackend'
-      VIRTUAL_HOST: mayan.zfix.org,mayan.mrksr.de
-      CERT_NAME: shared
-    entrypoint:
-      # NOTE(mrksr): Mayan wants to chown the settings files. To keep them
-      # read-only on the outside we copy them to the volume and let Mayan do
-      # its thing.
-      - sh
-      - -c
-      - 'cp /mrksr/* /var/lib/mayan/mayan_settings; exec entrypoint.sh run_all'
-    expose:
-      - "8000"
+      - mayan
+    restart: unless-stopped
     volumes:
-      - app:/var/lib/mayan
-      - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
-      - /srv/syncthing/data/mayan:/syncthing
+      - redis:/data
 
-networks:
-  web:
-    external:
-      name: nginx_default
-  ldap:
-    external:
-      name: ldap_default
+  # Run a frontend gunicorn container
+  frontend:
+    <<: [*mayan-container,*mayan-web-labels]
+    command:
+      - run_frontend
+    profiles:
+      - extra_frontend
+
+  # Run a separate class A worker
+  worker_a:
+    <<: *mayan-container
+    command:
+      - run_worker
+      - worker_a
+      - "--prefetch-multiplier=1"
+    profiles:
+      - extra_worker_a
+
+  # Run a separate class B worker
+  worker_b:
+    <<: *mayan-container
+    command:
+      - run_worker
+      - worker_b
+      - "--prefetch-multiplier=1"
+    profiles:
+      - extra_worker_b
+
+  # Run a separate class C worker
+  worker_c:
+    <<: *mayan-container
+    command:
+      - run_worker
+      - worker_c
+      - "--prefetch-multiplier=1"
+    profiles:
+      - extra_worker_c
+
+  # Run a separate class D worker
+  worker_d:
+    <<: *mayan-container
+    command:
+      - run_worker
+      - worker_d
+      - "--concurrency=1 --prefetch-multiplier=1"
+    profiles:
+      - extra_worker_d
+
+  worker_custom_queue:
+    <<: *mayan-container
+    command:
+      - /bin/sh
+      - -c
+      - 'MAYAN_QUEUE_LIST= /usr/local/bin/run_worker.sh --prefetch-multiplier=1'
+    profiles:
+      - extra_worker_custom
+
+  # Run a separate Celery beat container
+  celery_beat:
+    <<: *mayan-container
+    command:
+      - run_celery
+      - "beat --pidfile= --loglevel=ERROR"
+    profiles:
+      - extra_celery_beat
+
+  setup_or_upgrade:
+    <<: *mayan-container
+    command:
+      - run_initial_setup_or_perform_upgrade
+    profiles:
+      - extra_setup_or_upgrade
+    restart: "no"
+
+  rabbitmq:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: mayan
+      RABBITMQ_DEFAULT_PASS: mayan
+      RABBITMQ_DEFAULT_VHOST: mayan
+    networks:
+      - mayan
+    restart: unless-stopped
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+volumes:
+  app:
+  elasticsearch:
+  postgres:
+  mountindex:
+  rabbitmq:
+  redis:
