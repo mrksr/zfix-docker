@@ -138,72 +138,6 @@ services:
     volumes:
       - redis:/data
 
-  # Run a frontend gunicorn container
-  frontend:
-    <<: [*mayan-container,*mayan-web-labels]
-    command:
-      - run_frontend
-    profiles:
-      - extra_frontend
-
-  # Run a separate class A worker
-  worker_a:
-    <<: *mayan-container
-    command:
-      - run_worker
-      - worker_a
-      - "--prefetch-multiplier=1"
-    profiles:
-      - extra_worker_a
-
-  # Run a separate class B worker
-  worker_b:
-    <<: *mayan-container
-    command:
-      - run_worker
-      - worker_b
-      - "--prefetch-multiplier=1"
-    profiles:
-      - extra_worker_b
-
-  # Run a separate class C worker
-  worker_c:
-    <<: *mayan-container
-    command:
-      - run_worker
-      - worker_c
-      - "--prefetch-multiplier=1"
-    profiles:
-      - extra_worker_c
-
-  # Run a separate class D worker
-  worker_d:
-    <<: *mayan-container
-    command:
-      - run_worker
-      - worker_d
-      - "--concurrency=1 --prefetch-multiplier=1"
-    profiles:
-      - extra_worker_d
-
-  worker_custom_queue:
-    <<: *mayan-container
-    command:
-      - /bin/sh
-      - -c
-      - 'MAYAN_QUEUE_LIST= /usr/local/bin/run_worker.sh --prefetch-multiplier=1'
-    profiles:
-      - extra_worker_custom
-
-  # Run a separate Celery beat container
-  celery_beat:
-    <<: *mayan-container
-    command:
-      - run_celery
-      - "beat --pidfile= --loglevel=ERROR"
-    profiles:
-      - extra_celery_beat
-
   setup_or_upgrade:
     <<: *mayan-container
     command:
@@ -228,6 +162,5 @@ volumes:
   app:
   elasticsearch:
   postgres:
-  mountindex:
   rabbitmq:
   redis:
