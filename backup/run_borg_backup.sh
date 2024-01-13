@@ -21,22 +21,23 @@ info "Starting backup"
 # Backup the most important directories into an archive named after
 # the machine this script is currently running on:
 
-borg create                         \
-    --verbose                       \
-    --filter AME                    \
-    --list                          \
-    --stats                         \
-    --show-rc                       \
-    --compression zstd              \
-    --exclude-caches                \
-    --exclude '/home/*/.cache/*'    \
-    --exclude '/var/cache/*'        \
-    --exclude '/var/tmp/*'          \
-    --exclude '*/nobackup/*'        \
-                                    \
-    ::'{hostname}-{now}'            \
-    /srv                            \
-    /var/lib/docker/volumes         \
+borg create                                   \
+    --verbose                                 \
+    --filter AME                              \
+    --list                                    \
+    --stats                                   \
+    --show-rc                                 \
+    --compression zstd                        \
+    --exclude-caches                          \
+    --exclude '/home/*/.cache/*'              \
+    --exclude '/var/cache/*'                  \
+    --exclude '/var/tmp/*'                    \
+    --exclude '*/nobackup/*'                  \
+    --exclude '/srv/git/gitea/repo-archive/*' \
+                                              \
+    ::'{hostname}-{now}'                      \
+    /srv                                      \
+    /var/lib/docker/volumes                   \
 
 backup_exit=$?
 
