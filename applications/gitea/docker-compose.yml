@@ -33,6 +33,7 @@ services:
       - ROOT_URL="https://git.zfix.org"
       - LFS_START_SERVER=true
       - DISABLE_REGISTRATION=true
+      - REQUIRE_SIGNIN_VIEW=true
 
   database:
     image: postgres:12
