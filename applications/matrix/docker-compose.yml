@@ -26,14 +26,6 @@ services:
       - synapse_data:/data
       - whatsapp_data:/bridges/whatsapp:ro
       - signal_bridge_data:/bridges/signal:ro
-      # NOTE(mrksr): We overwrite the jinja templates used by the synapse
-      # docker file with our own configuration. Thus, most of the variables in
-      # the original documentation are ignored.
-      # NOTE(mrksr): Synapse no longer has an on-the-fly config mode. There is
-      # still a migrate_config command though (see official README) to generate
-      # secretes based on our config. For now we use this.
-      - ./homeserver.yaml:/conf/homeserver.yaml:ro
-      - ./log_config.yaml:/conf/log_config.yaml:ro
       - /srv/letsencrypt:/letsencrypt:ro
     links:
       - postgres
