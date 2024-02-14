@@ -3,6 +3,7 @@ version: "3"
 volumes:
   postgres_data: {}
   synapse_data: {}
+  slidingsync_postgres_data: {}
   whatsapp_data: {}
   signal_bridge_data: {}
   signal_signald_data: {}
@@ -15,8 +16,6 @@ services:
     networks:
       - default
       - ldap
-    # Since synapse does not retry to connect to the database, restart
-    # upon failure
     restart: unless-stopped
     environment:
       - UID=0
@@ -36,21 +35,47 @@ services:
     external_links:
       - ldap
 
+  slidingsync:
+    image: ghcr.io/matrix-org/sliding-sync:latest
+    networks:
+      - default
+    restart: unless-stopped
+    depends_on:
+      - slidingsync_postgres
+    env_file:
+      - path: ./slidingsync_secret.env
+        required: true
+    environment:
+      # - "SYNCV3_SECRET=some_secret" # NOTE(mrksr): In the .env file!
+      - "SYNCV3_SERVER=https://zfix.org"
+      - "SYNCV3_DB=user=postgres dbname=postgres sslmode=disable host=slidingsync_postgres password=postgres"
+      - "SYNCV3_BINDADDR=0.0.0.0:8881"
+
+  slidingsync_postgres:
+    image: docker.io/postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - slidingsync_postgres_data:/var/lib/postgresql/data
+
   nginx:
     image: nginx
+    restart: unless-stopped
+    container_name: matrix_nginx
     networks:
       - default
       - web
     links:
       - synapse
+      - slidingsync
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    environment:
-      - VIRTUAL_HOST=matrix.zfix.org,matrix.mrksr.de
-      - CERT_NAME=shared
 
   postgres:
     image: docker.io/postgres:15-alpine
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
