@@ -6,7 +6,6 @@ volumes:
   slidingsync_postgres_data: {}
   whatsapp_data: {}
   signal_bridge_data: {}
-  signal_signald_data: {}
   signal_postgres_data: {}
 
 services:
@@ -95,20 +94,9 @@ services:
     restart: unless-stopped
     links:
       - synapse
-      - signald
       - signal_postgres
     volumes:
       - signal_bridge_data:/data
-      - signal_signald_data:/signald
-    depends_on:
-      - signald
-
-  signald:
-    container_name: signald
-    image: docker.io/signald/signald
-    restart: unless-stopped
-    volumes:
-      - signal_signald_data:/signald
 
   signal_postgres:
     image: postgres:13-alpine
