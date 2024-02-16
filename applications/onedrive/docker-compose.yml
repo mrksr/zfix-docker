@@ -1,0 +1,14 @@
+version: "4"
+
+services:
+  onedrive:
+    image: driveone/onedrive:latest
+    restart: unless-stopped
+    environment:
+      - ONEDRIVE_UID=1000
+      - ONEDRIVE_GID=1000
+    volumes:
+      - onedrive_data:/onedrive
+
+volumes:
+  onedrive_data:
