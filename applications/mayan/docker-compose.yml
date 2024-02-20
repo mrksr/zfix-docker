@@ -27,6 +27,7 @@ x-mayan-environment:
   MAYAN_SEARCH_BACKEND_ARGUMENTS: "{'client_hosts':['http://elasticsearch:9200'],'client_http_auth':['elastic', 'mayan']}"
   MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
   MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS: "{'redis_url':'redis://redis:6379/2'}"
+  MAYAN_CSRF_TRUSTED_ORIGINS: "['https://mayan.zfix.org']"
 
 x-mayan-container:
   &mayan-container
@@ -50,7 +51,6 @@ x-mayan-container:
   volumes:
     - app:/var/lib/mayan
     - ./ldap_connection_settings.py:/mrksr/ldap_connection_settings.py:ro
-    - /srv/syncthing/data/mayan:/syncthing
 
 networks:
   mayan:
