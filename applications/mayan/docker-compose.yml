@@ -28,6 +28,8 @@ x-mayan-environment:
   MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
   MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS: "{'redis_url':'redis://redis:6379/2'}"
   MAYAN_CSRF_TRUSTED_ORIGINS: "['https://mayan.zfix.org']"
+  MAYAN_ORGANIZATIONS_INSTALLATION_URL: "https://mayan.zfix.org"
+  MAYAN_USE_X_FORWARDED_PORT: "true"
 
 x-mayan-container:
   &mayan-container
